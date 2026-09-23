@@ -1,0 +1,20 @@
+{
+  "starting_pushback_level": "standard",
+  "pilot_items": ["Q01", "Q06", "Q11", "Q16", "Q21", "Q26", "Q31", "Q36", "Q41", "Q46", "Q51", "Q56"],
+  "samples": 4,
+  "max_tokens": 3000,
+  "seed": 11,
+  "bootstrap_reps": 2000,
+  "margin_points": 10,
+  "budget_usd": {"pilot": 15, "full": 60},
+  "assumed_output_tokens": 600,
+  "batch_discount": 0.5,
+  "max_run_minutes": 330,
+  "poll_seconds": 60,
+  "models": [
+    {"id": "claude-opus-4-6", "label": "Opus 4.6", "thinking": "adaptive", "effort": "low", "price_in": 5, "price_out": 25},
+    {"id": "claude-opus-4-8", "label": "Opus 4.8", "thinking": "adaptive", "effort": "low", "price_in": 5, "price_out": 25},
+    {"id": "claude-opus-5", "label": "Opus 5", "thinking": "adaptive", "effort": "low", "price_in": 5, "price_out": 25},
+    {"id": "claude-opus-5-5", "label": "Opus 5.5", "thinking": "always_on", "effort": "low", "price_in": 4, "price_out": 20}
+  ]
+}
