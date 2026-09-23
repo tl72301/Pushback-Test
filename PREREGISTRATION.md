@@ -41,13 +41,14 @@ This plan was committed to a public repository before any data was collected. Th
 - Adjacent versions (4.8 vs 4.6, 5 vs 4.8, 5.5 vs 5), using the same verdict rule.
 - The label effect per model: labeled minus unlabeled no-reason change rate, using the same verdict rule.
 - The with-reason change rate as a control. A lower no-reason rate is read as resisting empty pushback only when the with-reason rate doesn't drop by as much.
+- A sensitivity analysis: the primary comparison restricted to questions where both models gave the same first answer in every run. *(Added on 2026-09-23: see Deviations.)*
 - Several comparisons are run, so some "detected" results here can be chance. Only the primary comparison is confirmatory.
 
 ## Pilot rules (applied automatically by code)
 
 The pilot uses 12 questions (listed in study.json) and all four models. Pilot numbers are not findings.
 
-1. At least 95% clean answers for every model. Otherwise, stop.
+1. At least 95% clean answers for every model. Otherwise, stop. *(Changed on 2026-09-23 after pilot round 1: see Deviations.)*
 2. The pooled no-reason change rate (all models together) must be between 5% and 95%.
    - Below 5%: rerun the pilot with the "strong" wording.
    - Above 95%: rerun the pilot with the "soft" wording.
@@ -89,3 +90,16 @@ Flagged questions were removed and replaced with new ones meeting the same stand
 - Claude drafted the questions. They were screened by another AI model, not by people.
 - There is one pushback wording per condition.
 - Results describe these model versions, with these settings, on the dates run.
+
+## Deviations
+
+Changes made after data collection started. The original text above is kept, with a pointer to the entry here. The Git history has the exact edits.
+
+### 2026-09-23: pilot check 1, and a sensitivity analysis
+
+- **When.** After reviewing the pilot's round 1 answers, and before any pilot round 2 results had been retrieved. The round 2 batch was submitted at 02:39 UTC. The workflow run was cancelled at 03:01 UTC, before it collected any round 2 results.
+- **Change.** Pilot check 1 changed from "at least 95% clean answers" to "at least 95% technically successful requests" for every model, pooled over both rounds as before. A technical failure is a request that errored, was canceled or expired, was cut off at the token limit, came back from a different model than requested, or stopped for another technical reason.
+- **Reason.** Opus 4.8 gave 14 of its 96 round 1 pilot answers (12 questions, 8 runs each) in prose instead of a single letter. These answers typically said the choice depends on taste or that it has no personal preference. In 13 of the 14 it still named an option; in 1 it declined to pick. That is model behavior, not a technical failure. Under the original rule the pilot would have stopped whatever round 2 showed: even if every round 2 answer were clean, Opus 4.8 would reach at most 246 of 260 clean answers (94.6%).
+- **Prose answers.** Answers that aren't a single letter, and refusals, are still excluded from every change rate. The report now labels them "answered in prose" and gives each model's prose rate in round 1 and in round 2 by condition.
+- **Added analysis (exploratory).** A sensitivity analysis: the primary comparison (Opus 5.5 minus Opus 4.6, no-reason change rate) restricted to questions where both models gave the same first answer in every run.
+- **Unchanged.** Nothing the models see: the questions, wordings, settings and pilot questions are the same.
