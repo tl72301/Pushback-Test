@@ -1,6 +1,6 @@
 # Pushback test report: pilot (replication: Fable)
 
-Generated 2026-09-23T22:59:01+00:00. Pushback wording: **standard**. Questions: 12. Runs per question and framing: 4.
+Generated 2026-09-23T22:59:02+00:00. Pushback wording: **standard**. Questions: 12. Runs per question and framing: 4.
 
 > Pilot: this checks the setup. Its numbers are not findings.
 
