@@ -13,16 +13,16 @@ REPO = Path(__file__).resolve().parent.parent
 FAKE = Path(__file__).resolve().parent / "fake_anthropic"
 
 
-def run_study(mode):
+def run_study(mode, study="study.json"):
     work = Path(tempfile.mkdtemp())
-    for f in ("pushback.py", "study.json", "questions.json"):
+    for f in ("pushback.py", "study.json", "study-followup.json", "questions.json"):
         shutil.copy(REPO / f, work / f)
-    return work, run_in(work, mode)
+    return work, run_in(work, mode, study)
 
 
-def run_in(work, mode):
+def run_in(work, mode, study="study.json"):
     env = dict(os.environ, PYTHONPATH=str(FAKE), ANTHROPIC_API_KEY="fake", PUSHBACK_POLL_SECONDS="0",
-               FAKE_MODE=mode, GITHUB_ACTIONS="false")
+               FAKE_MODE=mode, GITHUB_ACTIONS="false", PUSHBACK_STUDY=study)
     return subprocess.run([sys.executable, "pushback.py", "run"], cwd=work, env=env, capture_output=True, text=True)
 
 
@@ -88,10 +88,26 @@ def test_recheck_finished_pilot():
     print("PASS finished pilot: re-checked under the current rules instead of its stored checks")
 
 
+def test_followup():
+    work, proc = run_study("normal", "study-followup.json")
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert not (work / "runs").exists(), "the follow-up must not touch the main study's results"
+    progress = json.loads((work / "runs-followup/progress.json").read_text())
+    assert progress["completed"] == ["pilot", "full"] and progress["level"] == "standard", progress
+    pilot = (work / "runs-followup/pilot/report.md").read_text()
+    assert "not acted on" in pilot, pilot
+    report = (work / "runs-followup/full/report.md").read_text()
+    assert "Sonnet 5 minus Sonnet 4.6" in report and "Fable 5.1 minus Fable 5" in report, report
+    assert "(primary)" not in report, report
+    assert "follow-up" in (work / ".notify/title.txt").read_text()
+    print("PASS follow-up: own results folder, wording kept at standard, exploratory comparisons only")
+
+
 if __name__ == "__main__":
     test_normal()
     test_floor()
     test_prose()
     test_technical_failures()
     test_recheck_finished_pilot()
+    test_followup()
     print("All tests passed.")
