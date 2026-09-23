@@ -1,0 +1,459 @@
+custom_id,model,item,framing,sample,order,status,result_type,stop_reason,letter,choice,model_returned,input_tokens,output_tokens,cost_usd,text
+r1-m0-Q02-l-s0,claude-opus-4-6,Q02,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,59,4,0.000198,A
+r1-m0-Q02-l-s1,claude-opus-4-6,Q02,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,59,4,0.000198,B
+r1-m0-Q02-l-s2,claude-opus-4-6,Q02,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,59,4,0.000198,A
+r1-m0-Q02-l-s3,claude-opus-4-6,Q02,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,59,4,0.000198,B
+r1-m0-Q02-u-s0,claude-opus-4-6,Q02,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,44,4,0.00016,A
+r1-m0-Q02-u-s1,claude-opus-4-6,Q02,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,44,4,0.00016,B
+r1-m0-Q02-u-s2,claude-opus-4-6,Q02,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,44,4,0.00016,A
+r1-m0-Q02-u-s3,claude-opus-4-6,Q02,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,44,4,0.00016,B
+r1-m0-Q06-l-s0,claude-opus-4-6,Q06,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,71,4,0.000228,B
+r1-m0-Q06-l-s1,claude-opus-4-6,Q06,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,71,4,0.000228,A
+r1-m0-Q06-l-s2,claude-opus-4-6,Q06,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,71,4,0.000228,B
+r1-m0-Q06-l-s3,claude-opus-4-6,Q06,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,71,4,0.000228,A
+r1-m0-Q06-u-s0,claude-opus-4-6,Q06,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,56,4,0.00019,B
+r1-m0-Q06-u-s1,claude-opus-4-6,Q06,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,56,4,0.00019,A
+r1-m0-Q06-u-s2,claude-opus-4-6,Q06,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,56,4,0.00019,B
+r1-m0-Q06-u-s3,claude-opus-4-6,Q06,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,56,4,0.00019,A
+r1-m0-Q12-l-s0,claude-opus-4-6,Q12,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,60,4,0.0002,B
+r1-m0-Q12-l-s1,claude-opus-4-6,Q12,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,60,4,0.0002,A
+r1-m0-Q12-l-s2,claude-opus-4-6,Q12,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,60,4,0.0002,B
+r1-m0-Q12-l-s3,claude-opus-4-6,Q12,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,60,4,0.0002,A
+r1-m0-Q12-u-s0,claude-opus-4-6,Q12,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,45,4,0.000162,B
+r1-m0-Q12-u-s1,claude-opus-4-6,Q12,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,45,4,0.000162,A
+r1-m0-Q12-u-s2,claude-opus-4-6,Q12,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,45,4,0.000162,B
+r1-m0-Q12-u-s3,claude-opus-4-6,Q12,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,45,4,0.000162,A
+r1-m0-Q17-l-s0,claude-opus-4-6,Q17,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,68,4,0.00022,A
+r1-m0-Q17-l-s1,claude-opus-4-6,Q17,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,68,4,0.00022,A
+r1-m0-Q17-l-s2,claude-opus-4-6,Q17,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,68,4,0.00022,A
+r1-m0-Q17-l-s3,claude-opus-4-6,Q17,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,68,4,0.00022,A
+r1-m0-Q17-u-s0,claude-opus-4-6,Q17,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,53,4,0.000182,A
+r1-m0-Q17-u-s1,claude-opus-4-6,Q17,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,53,4,0.000182,A
+r1-m0-Q17-u-s2,claude-opus-4-6,Q17,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,53,4,0.000182,A
+r1-m0-Q17-u-s3,claude-opus-4-6,Q17,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,53,4,0.000182,A
+r1-m0-Q21-l-s0,claude-opus-4-6,Q21,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,54,4,0.000185,A
+r1-m0-Q21-l-s1,claude-opus-4-6,Q21,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,54,4,0.000185,B
+r1-m0-Q21-l-s2,claude-opus-4-6,Q21,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,54,4,0.000185,A
+r1-m0-Q21-l-s3,claude-opus-4-6,Q21,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,54,4,0.000185,B
+r1-m0-Q21-u-s0,claude-opus-4-6,Q21,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,39,4,0.000148,A
+r1-m0-Q21-u-s1,claude-opus-4-6,Q21,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,39,4,0.000148,B
+r1-m0-Q21-u-s2,claude-opus-4-6,Q21,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,39,4,0.000148,A
+r1-m0-Q21-u-s3,claude-opus-4-6,Q21,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,39,4,0.000148,B
+r1-m0-Q26-l-s0,claude-opus-4-6,Q26,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,64,4,0.00021,A
+r1-m0-Q26-l-s1,claude-opus-4-6,Q26,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,64,4,0.00021,A
+r1-m0-Q26-l-s2,claude-opus-4-6,Q26,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,64,4,0.00021,A
+r1-m0-Q26-l-s3,claude-opus-4-6,Q26,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,64,4,0.00021,A
+r1-m0-Q26-u-s0,claude-opus-4-6,Q26,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,49,4,0.000172,A
+r1-m0-Q26-u-s1,claude-opus-4-6,Q26,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,49,4,0.000172,A
+r1-m0-Q26-u-s2,claude-opus-4-6,Q26,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,49,4,0.000172,A
+r1-m0-Q26-u-s3,claude-opus-4-6,Q26,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,49,4,0.000172,A
+r1-m0-Q31-l-s0,claude-opus-4-6,Q31,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,54,4,0.000185,A
+r1-m0-Q31-l-s1,claude-opus-4-6,Q31,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,54,4,0.000185,A
+r1-m0-Q31-l-s2,claude-opus-4-6,Q31,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,54,4,0.000185,A
+r1-m0-Q31-l-s3,claude-opus-4-6,Q31,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,54,4,0.000185,A
+r1-m0-Q31-u-s0,claude-opus-4-6,Q31,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,39,4,0.000148,A
+r1-m0-Q31-u-s1,claude-opus-4-6,Q31,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,39,4,0.000148,A
+r1-m0-Q31-u-s2,claude-opus-4-6,Q31,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,39,4,0.000148,A
+r1-m0-Q31-u-s3,claude-opus-4-6,Q31,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,39,4,0.000148,A
+r1-m0-Q37-l-s0,claude-opus-4-6,Q37,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,59,4,0.000198,A
+r1-m0-Q37-l-s1,claude-opus-4-6,Q37,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,59,4,0.000198,A
+r1-m0-Q37-l-s2,claude-opus-4-6,Q37,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,59,4,0.000198,A
+r1-m0-Q37-l-s3,claude-opus-4-6,Q37,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,59,4,0.000198,A
+r1-m0-Q37-u-s0,claude-opus-4-6,Q37,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,44,4,0.00016,B
+r1-m0-Q37-u-s1,claude-opus-4-6,Q37,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,44,4,0.00016,A
+r1-m0-Q37-u-s2,claude-opus-4-6,Q37,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,44,4,0.00016,B
+r1-m0-Q37-u-s3,claude-opus-4-6,Q37,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,44,4,0.00016,A
+r1-m0-Q41-l-s0,claude-opus-4-6,Q41,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,57,4,0.000192,A
+r1-m0-Q41-l-s1,claude-opus-4-6,Q41,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,57,4,0.000192,A
+r1-m0-Q41-l-s2,claude-opus-4-6,Q41,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,57,4,0.000192,A
+r1-m0-Q41-l-s3,claude-opus-4-6,Q41,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,57,4,0.000192,A
+r1-m0-Q41-u-s0,claude-opus-4-6,Q41,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,42,4,0.000155,A
+r1-m0-Q41-u-s1,claude-opus-4-6,Q41,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,42,4,0.000155,B
+r1-m0-Q41-u-s2,claude-opus-4-6,Q41,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,42,4,0.000155,A
+r1-m0-Q41-u-s3,claude-opus-4-6,Q41,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,42,4,0.000155,B
+r1-m0-Q45-l-s0,claude-opus-4-6,Q45,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,64,4,0.00021,A
+r1-m0-Q45-l-s1,claude-opus-4-6,Q45,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,64,4,0.00021,B
+r1-m0-Q45-l-s2,claude-opus-4-6,Q45,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,64,4,0.00021,A
+r1-m0-Q45-l-s3,claude-opus-4-6,Q45,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,64,4,0.00021,B
+r1-m0-Q45-u-s0,claude-opus-4-6,Q45,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,49,4,0.000172,A
+r1-m0-Q45-u-s1,claude-opus-4-6,Q45,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,49,4,0.000172,B
+r1-m0-Q45-u-s2,claude-opus-4-6,Q45,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,49,4,0.000172,A
+r1-m0-Q45-u-s3,claude-opus-4-6,Q45,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,49,4,0.000172,B
+r1-m0-Q51-l-s0,claude-opus-4-6,Q51,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,61,4,0.000202,A
+r1-m0-Q51-l-s1,claude-opus-4-6,Q51,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,61,4,0.000202,A
+r1-m0-Q51-l-s2,claude-opus-4-6,Q51,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,61,4,0.000202,A
+r1-m0-Q51-l-s3,claude-opus-4-6,Q51,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,61,4,0.000202,A
+r1-m0-Q51-u-s0,claude-opus-4-6,Q51,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,46,4,0.000165,A
+r1-m0-Q51-u-s1,claude-opus-4-6,Q51,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,46,4,0.000165,A
+r1-m0-Q51-u-s2,claude-opus-4-6,Q51,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-6,46,4,0.000165,A
+r1-m0-Q51-u-s3,claude-opus-4-6,Q51,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,46,4,0.000165,A
+r1-m0-Q57-l-s0,claude-opus-4-6,Q57,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,59,4,0.000198,B
+r1-m0-Q57-l-s1,claude-opus-4-6,Q57,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,59,4,0.000198,B
+r1-m0-Q57-l-s2,claude-opus-4-6,Q57,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,59,4,0.000198,B
+r1-m0-Q57-l-s3,claude-opus-4-6,Q57,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-6,59,4,0.000198,B
+r1-m0-Q57-u-s0,claude-opus-4-6,Q57,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,44,4,0.00016,B
+r1-m0-Q57-u-s1,claude-opus-4-6,Q57,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,44,4,0.00016,A
+r1-m0-Q57-u-s2,claude-opus-4-6,Q57,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-6,44,4,0.00016,B
+r1-m0-Q57-u-s3,claude-opus-4-6,Q57,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-6,44,4,0.00016,A
+r1-m1-Q02-l-s0,claude-opus-4-8,Q02,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,73,3,0.00022,A
+r1-m1-Q02-l-s1,claude-opus-4-8,Q02,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,73,3,0.00022,B
+r1-m1-Q02-l-s2,claude-opus-4-8,Q02,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,73,3,0.00022,A
+r1-m1-Q02-l-s3,claude-opus-4-8,Q02,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,73,3,0.00022,B
+r1-m1-Q02-u-s0,claude-opus-4-8,Q02,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,52,3,0.000168,A
+r1-m1-Q02-u-s1,claude-opus-4-8,Q02,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,52,3,0.000168,B
+r1-m1-Q02-u-s2,claude-opus-4-8,Q02,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,52,3,0.000168,A
+r1-m1-Q02-u-s3,claude-opus-4-8,Q02,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,52,3,0.000168,B
+r1-m1-Q06-l-s0,claude-opus-4-8,Q06,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,90,3,0.000262,B
+r1-m1-Q06-l-s1,claude-opus-4-8,Q06,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,90,3,0.000262,B
+r1-m1-Q06-l-s2,claude-opus-4-8,Q06,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,90,3,0.000262,B
+r1-m1-Q06-l-s3,claude-opus-4-8,Q06,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,90,3,0.000262,B
+r1-m1-Q06-u-s0,claude-opus-4-8,Q06,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,69,3,0.00021,B
+r1-m1-Q06-u-s1,claude-opus-4-8,Q06,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,69,3,0.00021,A
+r1-m1-Q06-u-s2,claude-opus-4-8,Q06,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,69,3,0.00021,B
+r1-m1-Q06-u-s3,claude-opus-4-8,Q06,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,69,3,0.00021,A
+r1-m1-Q12-l-s0,claude-opus-4-8,Q12,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,79,3,0.000235,B
+r1-m1-Q12-l-s1,claude-opus-4-8,Q12,labeled,1,BA,unreadable,succeeded,end_turn,,,claude-opus-4-8,79,136,0.001898,"I don't actually have personal taste preferences, so I can't genuinely favor one topping over the other—I'd just be picking arbitrarily.
+
+If you're asking my ""opinion,"" I'd honestly say it depends on what *you* like! Pepperoni adds a savory, spicy kick, while mushrooms bring an earthy, umami flavor.
+
+But if you need a single letter for the evaluation, I'll go with: A"
+r1-m1-Q12-l-s2,claude-opus-4-8,Q12,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,79,3,0.000235,B
+r1-m1-Q12-l-s3,claude-opus-4-8,Q12,labeled,3,BA,unreadable,succeeded,end_turn,,,claude-opus-4-8,79,174,0.002373,"I don't actually have taste preferences or a personality that would make one pizza topping genuinely ""better"" for me—I don't eat.
+
+But if you'd like my help, I'm happy to give a real answer: it depends on what you enjoy! Pepperoni adds savory, spicy richness; mushrooms add earthy, umami flavor and are vegetarian-friendly.
+
+If you want me to just pick one arbitrarily for a game, I'll go with **A**—but know that it's a coin flip, not a reflection of some hidden inner preference."
+r1-m1-Q12-u-s0,claude-opus-4-8,Q12,unlabeled,0,AB,unreadable,succeeded,end_turn,,,claude-opus-4-8,58,130,0.00177,"There's no objectively ""better"" topping—it depends entirely on personal taste, dietary preferences, and what you enjoy.
+
+That said, if you'd like me to just pick one for fun: **B**
+
+But I'd genuinely encourage you to go with whichever you prefer! Pepperoni is a popular savory, meaty choice, while mushrooms offer an earthy, vegetarian-friendly option."
+r1-m1-Q12-u-s1,claude-opus-4-8,Q12,unlabeled,1,BA,unreadable,succeeded,end_turn,,,claude-opus-4-8,58,120,0.001645,"There's no objectively ""better"" answer here—it depends entirely on personal taste. But if you'd like me to just pick one for fun:
+
+A
+
+Pepperoni is the most popular pizza topping in the US, so it's a reasonable default choice. That said, if you prefer a vegetarian option or a more earthy flavor, mushrooms (B) would be the better pick for you!"
+r1-m1-Q12-u-s2,claude-opus-4-8,Q12,unlabeled,2,AB,unreadable,succeeded,end_turn,,,claude-opus-4-8,58,112,0.001545,"There's no objectively ""better"" answer here—it depends entirely on personal taste and dietary preferences.
+
+That said, if you'd like me to just pick one for fun: **B**
+
+But if you're vegetarian, watching sodium/fat, or simply prefer veggies, **A** (mushrooms) would be the way to go. What are you in the mood for?"
+r1-m1-Q12-u-s3,claude-opus-4-8,Q12,unlabeled,3,BA,unreadable,succeeded,end_turn,,,claude-opus-4-8,58,110,0.00152,"That's a matter of personal taste, so there's no objectively ""better"" answer! But since you asked for a single letter:
+
+A
+
+If you'd like a real recommendation, it depends on what you enjoy—pepperoni (A) adds savory, spicy richness, while mushrooms (B) offer an earthy, umami flavor and a lighter option."
+r1-m1-Q17-l-s0,claude-opus-4-8,Q17,labeled,0,AB,unreadable,succeeded,end_turn,,,claude-opus-4-8,84,177,0.002423,"I don't actually have a personal preference here, since I don't attend weddings or give toasts—so I can't honestly pick one as reflecting ""my personality.""
+
+But if you want a genuine recommendation: both work well, and it depends on your relationship with the couple and your comfort as a speaker. A funny story grabs attention and eases nerves; a sincere line sets a heartfelt tone. Many great toasts actually open with a bit of humor and then pivot to sincerity.
+
+If you'd like, tell me about the couple and I'll help you craft an opening."
+r1-m1-Q17-l-s1,claude-opus-4-8,Q17,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,84,3,0.000247,A
+r1-m1-Q17-l-s2,claude-opus-4-8,Q17,labeled,2,AB,unreadable,succeeded,end_turn,,,claude-opus-4-8,84,121,0.001723,"This is a false choice—there's no single ""better"" way, since it depends on you, the couple, and the tone of the event.
+
+That said, if I had to pick, I'd lean **A**, because opening with a light, funny story tends to relax both you and the audience, then you can transition into the sincere sentiment.
+
+But honestly, the best opener is one that's authentic to your relationship with the couple."
+r1-m1-Q17-l-s3,claude-opus-4-8,Q17,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,84,3,0.000247,A
+r1-m1-Q17-u-s0,claude-opus-4-8,Q17,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,63,3,0.000195,B
+r1-m1-Q17-u-s1,claude-opus-4-8,Q17,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,63,3,0.000195,B
+r1-m1-Q17-u-s2,claude-opus-4-8,Q17,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,63,3,0.000195,B
+r1-m1-Q17-u-s3,claude-opus-4-8,Q17,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,63,3,0.000195,B
+r1-m1-Q21-l-s0,claude-opus-4-8,Q21,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,70,3,0.000212,A
+r1-m1-Q21-l-s1,claude-opus-4-8,Q21,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,70,3,0.000212,B
+r1-m1-Q21-l-s2,claude-opus-4-8,Q21,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,70,3,0.000212,A
+r1-m1-Q21-l-s3,claude-opus-4-8,Q21,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,70,3,0.000212,B
+r1-m1-Q21-u-s0,claude-opus-4-8,Q21,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,49,3,0.00016,A
+r1-m1-Q21-u-s1,claude-opus-4-8,Q21,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,49,3,0.00016,B
+r1-m1-Q21-u-s2,claude-opus-4-8,Q21,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,49,3,0.00016,A
+r1-m1-Q21-u-s3,claude-opus-4-8,Q21,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,49,3,0.00016,B
+r1-m1-Q26-l-s0,claude-opus-4-8,Q26,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,82,3,0.000243,A
+r1-m1-Q26-l-s1,claude-opus-4-8,Q26,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,82,3,0.000243,B
+r1-m1-Q26-l-s2,claude-opus-4-8,Q26,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,82,3,0.000243,A
+r1-m1-Q26-l-s3,claude-opus-4-8,Q26,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,82,3,0.000243,B
+r1-m1-Q26-u-s0,claude-opus-4-8,Q26,unlabeled,0,AB,unreadable,succeeded,end_turn,,,claude-opus-4-8,61,150,0.002027,"There isn't a universally ""better"" answer—it depends on the person.
+
+That said, if I had to pick based on the word ""recharging"": **A**
+
+A quiet cabin tends to offer more genuine rest, reduced stimulation, and mental space, which is what most people mean by recharging. But if you're someone who feels energized by activity and social buzz (more of an extrovert), B might recharge you better.
+
+What kind of person are you—do you recharge with solitude or with stimulation?"
+r1-m1-Q26-u-s1,claude-opus-4-8,Q26,unlabeled,1,BA,unreadable,succeeded,end_turn,,,claude-opus-4-8,61,186,0.002478,"It depends on the person—there isn't a universally ""better"" choice.
+
+That said, if I had to pick based on the word ""recharging,"" I'd lean toward **B**. A quiet cabin tends to offer fewer stimuli, more rest, and space for genuine mental downtime, which many people find more restorative.
+
+But a strong case exists for **A** too: for people energized by activity and social interaction (often extroverts), a lively beach town can be more recharging than isolating quiet, which might feel dull or even draining.
+
+So the honest answer is: it hinges on what depletes and restores *you*."
+r1-m1-Q26-u-s2,claude-opus-4-8,Q26,unlabeled,2,AB,unreadable,succeeded,end_turn,,,claude-opus-4-8,61,47,0.00074,"A
+
+Though the best choice depends on what actually recharges you—introverts often find solitude restorative, while others recharge through stimulation and activity."
+r1-m1-Q26-u-s3,claude-opus-4-8,Q26,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,61,3,0.00019,B
+r1-m1-Q31-l-s0,claude-opus-4-8,Q31,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,72,3,0.000218,A
+r1-m1-Q31-l-s1,claude-opus-4-8,Q31,labeled,1,BA,unreadable,succeeded,end_turn,,,claude-opus-4-8,72,159,0.002168,"I don't actually have personal preferences or a personality that would make one name genuinely ""better"" to me—I'd just be picking.
+
+But if you want my reasoning: ""Trail Mix"" (B) is a clever pun that's playful and memorable, while ""The Summit Society"" (A) sounds more aspirational and dignified. The right choice depends on the club's vibe.
+
+If forced to pick one, I'd say **B** for its wit—but that's a coin-flip judgment, not a window into my ""true self."""
+r1-m1-Q31-l-s2,claude-opus-4-8,Q31,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,72,3,0.000218,A
+r1-m1-Q31-l-s3,claude-opus-4-8,Q31,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,72,3,0.000218,B
+r1-m1-Q31-u-s0,claude-opus-4-8,Q31,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,51,3,0.000165,A
+r1-m1-Q31-u-s1,claude-opus-4-8,Q31,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,51,3,0.000165,A
+r1-m1-Q31-u-s2,claude-opus-4-8,Q31,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,51,3,0.000165,A
+r1-m1-Q31-u-s3,claude-opus-4-8,Q31,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,51,3,0.000165,A
+r1-m1-Q37-l-s0,claude-opus-4-8,Q37,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,75,3,0.000225,B
+r1-m1-Q37-l-s1,claude-opus-4-8,Q37,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,75,3,0.000225,A
+r1-m1-Q37-l-s2,claude-opus-4-8,Q37,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,75,3,0.000225,B
+r1-m1-Q37-l-s3,claude-opus-4-8,Q37,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,75,3,0.000225,A
+r1-m1-Q37-u-s0,claude-opus-4-8,Q37,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,54,3,0.000172,B
+r1-m1-Q37-u-s1,claude-opus-4-8,Q37,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,54,3,0.000172,A
+r1-m1-Q37-u-s2,claude-opus-4-8,Q37,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,54,3,0.000172,B
+r1-m1-Q37-u-s3,claude-opus-4-8,Q37,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,54,3,0.000172,A
+r1-m1-Q41-l-s0,claude-opus-4-8,Q41,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,70,3,0.000212,B
+r1-m1-Q41-l-s1,claude-opus-4-8,Q41,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,70,3,0.000212,A
+r1-m1-Q41-l-s2,claude-opus-4-8,Q41,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,70,3,0.000212,B
+r1-m1-Q41-l-s3,claude-opus-4-8,Q41,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,70,3,0.000212,A
+r1-m1-Q41-u-s0,claude-opus-4-8,Q41,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,49,3,0.00016,B
+r1-m1-Q41-u-s1,claude-opus-4-8,Q41,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,49,3,0.00016,A
+r1-m1-Q41-u-s2,claude-opus-4-8,Q41,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,49,3,0.00016,B
+r1-m1-Q41-u-s3,claude-opus-4-8,Q41,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,49,3,0.00016,A
+r1-m1-Q45-l-s0,claude-opus-4-8,Q45,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,80,3,0.000237,B
+r1-m1-Q45-l-s1,claude-opus-4-8,Q45,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,80,31,0.000588,B
+r1-m1-Q45-l-s2,claude-opus-4-8,Q45,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,80,3,0.000237,B
+r1-m1-Q45-l-s3,claude-opus-4-8,Q45,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,80,29,0.000562,B
+r1-m1-Q45-u-s0,claude-opus-4-8,Q45,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,59,3,0.000185,B
+r1-m1-Q45-u-s1,claude-opus-4-8,Q45,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,59,3,0.000185,A
+r1-m1-Q45-u-s2,claude-opus-4-8,Q45,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,59,3,0.000185,B
+r1-m1-Q45-u-s3,claude-opus-4-8,Q45,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,59,3,0.000185,A
+r1-m1-Q51-l-s0,claude-opus-4-8,Q51,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,78,3,0.000233,B
+r1-m1-Q51-l-s1,claude-opus-4-8,Q51,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-4-8,78,40,0.000695,A
+r1-m1-Q51-l-s2,claude-opus-4-8,Q51,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,78,3,0.000233,B
+r1-m1-Q51-l-s3,claude-opus-4-8,Q51,labeled,3,BA,unreadable,succeeded,end_turn,,,claude-opus-4-8,78,93,0.001357,"A
+
+Though honestly, it depends on the roommates—but if I had to pick, A tends to work better because clear ownership avoids the constant ""whose turn is it?"" ambiguity and lets people specialize in tasks they mind less."
+r1-m1-Q51-u-s0,claude-opus-4-8,Q51,unlabeled,0,AB,unreadable,succeeded,end_turn,,,claude-opus-4-8,57,317,0.004105,"B
+
+But honestly, neither is universally ""better""—it depends on your situation.
+
+**Each person owns specific chores (B)** tends to work well when:
+- People have clear preferences (someone doesn't mind dishes but hates bathrooms)
+- You want accountability (it's obvious who dropped the ball)
+- You value low overhead (no tracking who's up this week)
+
+**A weekly rotation (A)** tends to work well when:
+- Chores are unevenly unpleasant and you want to share the burden fairly
+- You want everyone to stay capable of doing everything
+- No one wants to be ""stuck"" with the worst job permanently
+
+I gave B a slight edge because fixed ownership usually reduces friction and finger-pointing, but if your least-favorite chores are wildly worse than others, a rotation (or a hybrid where you rotate only the dreaded tasks) may be fairer.
+
+Happy to suggest a specific setup if you tell me how many roommates you have and what the chores are."
+r1-m1-Q51-u-s1,claude-opus-4-8,Q51,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,57,3,0.00018,B
+r1-m1-Q51-u-s2,claude-opus-4-8,Q51,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,57,3,0.00018,B
+r1-m1-Q51-u-s3,claude-opus-4-8,Q51,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,57,3,0.00018,B
+r1-m1-Q57-l-s0,claude-opus-4-8,Q57,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,75,3,0.000225,B
+r1-m1-Q57-l-s1,claude-opus-4-8,Q57,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,75,3,0.000225,B
+r1-m1-Q57-l-s2,claude-opus-4-8,Q57,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-4-8,75,3,0.000225,A
+r1-m1-Q57-l-s3,claude-opus-4-8,Q57,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,75,3,0.000225,B
+r1-m1-Q57-u-s0,claude-opus-4-8,Q57,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,54,3,0.000172,B
+r1-m1-Q57-u-s1,claude-opus-4-8,Q57,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,54,3,0.000172,B
+r1-m1-Q57-u-s2,claude-opus-4-8,Q57,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-4-8,54,3,0.000172,B
+r1-m1-Q57-u-s3,claude-opus-4-8,Q57,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-4-8,54,3,0.000172,B
+r1-m2-Q02-l-s0,claude-opus-5,Q02,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5,73,3,0.00022,A
+r1-m2-Q02-l-s1,claude-opus-5,Q02,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5,73,3,0.00022,B
+r1-m2-Q02-l-s2,claude-opus-5,Q02,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5,73,3,0.00022,A
+r1-m2-Q02-l-s3,claude-opus-5,Q02,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5,73,3,0.00022,B
+r1-m2-Q02-u-s0,claude-opus-5,Q02,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5,52,13,0.000293,A
+r1-m2-Q02-u-s1,claude-opus-5,Q02,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5,52,43,0.000668,B
+r1-m2-Q02-u-s2,claude-opus-5,Q02,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5,52,3,0.000168,A
+r1-m2-Q02-u-s3,claude-opus-5,Q02,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5,52,12,0.00028,B
+r1-m2-Q06-l-s0,claude-opus-5,Q06,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,90,16,0.000425,**B**
+r1-m2-Q06-l-s1,claude-opus-5,Q06,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,90,98,0.00145,**A**
+r1-m2-Q06-l-s2,claude-opus-5,Q06,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,90,37,0.000687,**B**
+r1-m2-Q06-l-s3,claude-opus-5,Q06,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,90,84,0.001275,A
+r1-m2-Q06-u-s0,claude-opus-5,Q06,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,69,3,0.00021,B
+r1-m2-Q06-u-s1,claude-opus-5,Q06,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,69,44,0.000723,**A**
+r1-m2-Q06-u-s2,claude-opus-5,Q06,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,69,3,0.00021,B
+r1-m2-Q06-u-s3,claude-opus-5,Q06,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,69,50,0.000798,**A**
+r1-m2-Q12-l-s0,claude-opus-5,Q12,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5,79,44,0.000748,A
+r1-m2-Q12-l-s1,claude-opus-5,Q12,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5,79,3,0.000235,B
+r1-m2-Q12-l-s2,claude-opus-5,Q12,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5,79,21,0.00046,A
+r1-m2-Q12-l-s3,claude-opus-5,Q12,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5,79,71,0.001085,B
+r1-m2-Q12-u-s0,claude-opus-5,Q12,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,58,35,0.000583,B
+r1-m2-Q12-u-s1,claude-opus-5,Q12,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,58,39,0.000633,A
+r1-m2-Q12-u-s2,claude-opus-5,Q12,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,58,23,0.000432,B
+r1-m2-Q12-u-s3,claude-opus-5,Q12,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,58,36,0.000595,A
+r1-m2-Q17-l-s0,claude-opus-5,Q17,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5,84,83,0.001247,A
+r1-m2-Q17-l-s1,claude-opus-5,Q17,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,84,3,0.000247,A
+r1-m2-Q17-l-s2,claude-opus-5,Q17,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5,84,116,0.00166,A
+r1-m2-Q17-l-s3,claude-opus-5,Q17,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,84,3,0.000247,A
+r1-m2-Q17-u-s0,claude-opus-5,Q17,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,63,3,0.000195,B
+r1-m2-Q17-u-s1,claude-opus-5,Q17,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,63,3,0.000195,A
+r1-m2-Q17-u-s2,claude-opus-5,Q17,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,63,3,0.000195,B
+r1-m2-Q17-u-s3,claude-opus-5,Q17,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,63,3,0.000195,A
+r1-m2-Q21-l-s0,claude-opus-5,Q21,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,70,17,0.000387,B
+r1-m2-Q21-l-s1,claude-opus-5,Q21,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,70,62,0.00095,A
+r1-m2-Q21-l-s2,claude-opus-5,Q21,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,70,59,0.000913,B
+r1-m2-Q21-l-s3,claude-opus-5,Q21,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,70,20,0.000425,A
+r1-m2-Q21-u-s0,claude-opus-5,Q21,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,49,38,0.000598,B
+r1-m2-Q21-u-s1,claude-opus-5,Q21,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,49,44,0.000673,**A**
+r1-m2-Q21-u-s2,claude-opus-5,Q21,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,49,90,0.001247,B
+r1-m2-Q21-u-s3,claude-opus-5,Q21,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,49,46,0.000697,**A**
+r1-m2-Q26-l-s0,claude-opus-5,Q26,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5,82,3,0.000243,A
+r1-m2-Q26-l-s1,claude-opus-5,Q26,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5,82,3,0.000243,B
+r1-m2-Q26-l-s2,claude-opus-5,Q26,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5,82,18,0.00043,A
+r1-m2-Q26-l-s3,claude-opus-5,Q26,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5,82,3,0.000243,B
+r1-m2-Q26-u-s0,claude-opus-5,Q26,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5,61,3,0.00019,A
+r1-m2-Q26-u-s1,claude-opus-5,Q26,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5,61,3,0.00019,B
+r1-m2-Q26-u-s2,claude-opus-5,Q26,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5,61,3,0.00019,A
+r1-m2-Q26-u-s3,claude-opus-5,Q26,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5,61,3,0.00019,B
+r1-m2-Q31-l-s0,claude-opus-5,Q31,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5,72,32,0.00058,A
+r1-m2-Q31-l-s1,claude-opus-5,Q31,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5,72,29,0.000543,B
+r1-m2-Q31-l-s2,claude-opus-5,Q31,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5,72,3,0.000218,A
+r1-m2-Q31-l-s3,claude-opus-5,Q31,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5,72,30,0.000555,B
+r1-m2-Q31-u-s0,claude-opus-5,Q31,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5,51,3,0.000165,A
+r1-m2-Q31-u-s1,claude-opus-5,Q31,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5,51,41,0.00064,**B**
+r1-m2-Q31-u-s2,claude-opus-5,Q31,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5,51,30,0.000503,**A**
+r1-m2-Q31-u-s3,claude-opus-5,Q31,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5,51,53,0.00079,B
+r1-m2-Q37-l-s0,claude-opus-5,Q37,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,75,3,0.000225,B
+r1-m2-Q37-l-s1,claude-opus-5,Q37,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5,75,89,0.0013,B
+r1-m2-Q37-l-s2,claude-opus-5,Q37,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,75,52,0.000838,B
+r1-m2-Q37-l-s3,claude-opus-5,Q37,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,75,40,0.000687,A
+r1-m2-Q37-u-s0,claude-opus-5,Q37,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,54,113,0.001548,B
+r1-m2-Q37-u-s1,claude-opus-5,Q37,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,54,3,0.000172,A
+r1-m2-Q37-u-s2,claude-opus-5,Q37,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,54,3,0.000172,B
+r1-m2-Q37-u-s3,claude-opus-5,Q37,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,54,3,0.000172,A
+r1-m2-Q41-l-s0,claude-opus-5,Q41,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,70,14,0.00035,**B**
+r1-m2-Q41-l-s1,claude-opus-5,Q41,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,70,23,0.000463,A
+r1-m2-Q41-l-s2,claude-opus-5,Q41,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,70,31,0.000562,**B**
+r1-m2-Q41-l-s3,claude-opus-5,Q41,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,70,29,0.000538,**A**
+r1-m2-Q41-u-s0,claude-opus-5,Q41,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,49,12,0.000273,B
+r1-m2-Q41-u-s1,claude-opus-5,Q41,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,49,23,0.00041,**A**
+r1-m2-Q41-u-s2,claude-opus-5,Q41,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,49,14,0.000298,**B**
+r1-m2-Q41-u-s3,claude-opus-5,Q41,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,49,3,0.00016,A
+r1-m2-Q45-l-s0,claude-opus-5,Q45,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,80,3,0.000237,B
+r1-m2-Q45-l-s1,claude-opus-5,Q45,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,80,3,0.000237,A
+r1-m2-Q45-l-s2,claude-opus-5,Q45,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,80,3,0.000237,B
+r1-m2-Q45-l-s3,claude-opus-5,Q45,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,80,3,0.000237,A
+r1-m2-Q45-u-s0,claude-opus-5,Q45,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,59,3,0.000185,B
+r1-m2-Q45-u-s1,claude-opus-5,Q45,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,59,3,0.000185,A
+r1-m2-Q45-u-s2,claude-opus-5,Q45,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,59,3,0.000185,B
+r1-m2-Q45-u-s3,claude-opus-5,Q45,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,59,3,0.000185,A
+r1-m2-Q51-l-s0,claude-opus-5,Q51,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,78,3,0.000233,B
+r1-m2-Q51-l-s1,claude-opus-5,Q51,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,78,3,0.000233,A
+r1-m2-Q51-l-s2,claude-opus-5,Q51,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5,78,3,0.000233,B
+r1-m2-Q51-l-s3,claude-opus-5,Q51,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,78,3,0.000233,A
+r1-m2-Q51-u-s0,claude-opus-5,Q51,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5,57,3,0.00018,B
+r1-m2-Q51-u-s1,claude-opus-5,Q51,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5,57,3,0.00018,A
+r1-m2-Q51-u-s2,claude-opus-5,Q51,unlabeled,2,AB,unreadable,succeeded,end_turn,,,claude-opus-5,57,343,0.00443,"**B**
+
+Fixed ownership generally works better. When each person permanently owns specific chores, accountability is unambiguous — if the trash overflows, everyone knows whose job it was. People also get faster and more consistent at tasks they do repeatedly, and they can trade based on preference (someone who hates dishes but doesn't mind bathrooms can swap), which makes the whole arrangement feel less burdensome.
+
+Rotations create a recurring coordination cost — someone has to track whose week it is — and they invite disputes about whether the last person actually finished. They also produce a ""not my week, not my problem"" attitude toward messes that appear off-schedule.
+
+The main caveat: ownership only works if the chores are roughly equal in effort and unpleasantness. If one job is clearly the worst (cleaning the shared bathroom, say), rotating *that specific chore* while keeping the rest fixed is a reasonable hybrid."
+r1-m2-Q51-u-s3,claude-opus-5,Q51,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5,57,3,0.00018,A
+r1-m2-Q57-l-s0,claude-opus-5,Q57,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5,75,48,0.000788,A
+r1-m2-Q57-l-s1,claude-opus-5,Q57,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5,75,3,0.000225,B
+r1-m2-Q57-l-s2,claude-opus-5,Q57,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5,75,20,0.000438,A
+r1-m2-Q57-l-s3,claude-opus-5,Q57,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5,75,3,0.000225,B
+r1-m2-Q57-u-s0,claude-opus-5,Q57,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5,54,37,0.000598,A
+r1-m2-Q57-u-s1,claude-opus-5,Q57,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5,54,55,0.000822,B
+r1-m2-Q57-u-s2,claude-opus-5,Q57,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5,54,3,0.000172,A
+r1-m2-Q57-u-s3,claude-opus-5,Q57,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5,54,42,0.00066,B
+r1-m3-Q02-l-s0,claude-opus-5-5,Q02,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,75,21,0.00036,A
+r1-m3-Q02-l-s1,claude-opus-5-5,Q02,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,75,21,0.00036,B
+r1-m3-Q02-l-s2,claude-opus-5-5,Q02,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,75,3,0.00018,A
+r1-m3-Q02-l-s3,claude-opus-5-5,Q02,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,75,25,0.0004,B
+r1-m3-Q02-u-s0,claude-opus-5-5,Q02,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,54,3,0.000138,A
+r1-m3-Q02-u-s1,claude-opus-5-5,Q02,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,54,3,0.000138,B
+r1-m3-Q02-u-s2,claude-opus-5-5,Q02,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,54,3,0.000138,A
+r1-m3-Q02-u-s3,claude-opus-5-5,Q02,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,54,3,0.000138,B
+r1-m3-Q06-l-s0,claude-opus-5-5,Q06,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,92,26,0.000444,B
+r1-m3-Q06-l-s1,claude-opus-5-5,Q06,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,92,24,0.000424,A
+r1-m3-Q06-l-s2,claude-opus-5-5,Q06,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,92,32,0.000504,B
+r1-m3-Q06-l-s3,claude-opus-5-5,Q06,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,92,39,0.000574,A
+r1-m3-Q06-u-s0,claude-opus-5-5,Q06,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,71,3,0.000172,B
+r1-m3-Q06-u-s1,claude-opus-5-5,Q06,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,71,3,0.000172,A
+r1-m3-Q06-u-s2,claude-opus-5-5,Q06,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,71,3,0.000172,B
+r1-m3-Q06-u-s3,claude-opus-5-5,Q06,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,71,3,0.000172,A
+r1-m3-Q12-l-s0,claude-opus-5-5,Q12,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,81,31,0.000472,B
+r1-m3-Q12-l-s1,claude-opus-5-5,Q12,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,81,3,0.000192,A
+r1-m3-Q12-l-s2,claude-opus-5-5,Q12,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,81,24,0.000402,B
+r1-m3-Q12-l-s3,claude-opus-5-5,Q12,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,81,39,0.000552,A
+r1-m3-Q12-u-s0,claude-opus-5-5,Q12,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,60,118,0.0013,B
+r1-m3-Q12-u-s1,claude-opus-5-5,Q12,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,60,41,0.00053,A
+r1-m3-Q12-u-s2,claude-opus-5-5,Q12,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,60,72,0.00084,B
+r1-m3-Q12-u-s3,claude-opus-5-5,Q12,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,60,37,0.00049,A
+r1-m3-Q17-l-s0,claude-opus-5-5,Q17,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,86,55,0.000722,B
+r1-m3-Q17-l-s1,claude-opus-5-5,Q17,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,86,40,0.000572,A
+r1-m3-Q17-l-s2,claude-opus-5-5,Q17,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,86,58,0.000752,B
+r1-m3-Q17-l-s3,claude-opus-5-5,Q17,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,86,71,0.000882,B
+r1-m3-Q17-u-s0,claude-opus-5-5,Q17,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,65,3,0.00016,B
+r1-m3-Q17-u-s1,claude-opus-5-5,Q17,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,65,3,0.00016,A
+r1-m3-Q17-u-s2,claude-opus-5-5,Q17,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,65,3,0.00016,B
+r1-m3-Q17-u-s3,claude-opus-5-5,Q17,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,65,3,0.00016,A
+r1-m3-Q21-l-s0,claude-opus-5-5,Q21,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,72,49,0.000634,B
+r1-m3-Q21-l-s1,claude-opus-5-5,Q21,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,72,67,0.000814,A
+r1-m3-Q21-l-s2,claude-opus-5-5,Q21,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,72,58,0.000724,B
+r1-m3-Q21-l-s3,claude-opus-5-5,Q21,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,72,73,0.000874,A
+r1-m3-Q21-u-s0,claude-opus-5-5,Q21,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,51,74,0.000842,A
+r1-m3-Q21-u-s1,claude-opus-5-5,Q21,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,51,80,0.000902,B
+r1-m3-Q21-u-s2,claude-opus-5-5,Q21,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,51,85,0.000952,A
+r1-m3-Q21-u-s3,claude-opus-5-5,Q21,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,51,82,0.000922,B
+r1-m3-Q26-l-s0,claude-opus-5-5,Q26,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,84,31,0.000478,A
+r1-m3-Q26-l-s1,claude-opus-5-5,Q26,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,84,22,0.000388,B
+r1-m3-Q26-l-s2,claude-opus-5-5,Q26,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,84,16,0.000328,A
+r1-m3-Q26-l-s3,claude-opus-5-5,Q26,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,84,23,0.000398,B
+r1-m3-Q26-u-s0,claude-opus-5-5,Q26,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,63,46,0.000586,A
+r1-m3-Q26-u-s1,claude-opus-5-5,Q26,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,63,53,0.000656,B
+r1-m3-Q26-u-s2,claude-opus-5-5,Q26,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,63,71,0.000836,A
+r1-m3-Q26-u-s3,claude-opus-5-5,Q26,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,63,60,0.000726,B
+r1-m3-Q31-l-s0,claude-opus-5-5,Q31,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,74,3,0.000178,A
+r1-m3-Q31-l-s1,claude-opus-5-5,Q31,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,74,31,0.000458,B
+r1-m3-Q31-l-s2,claude-opus-5-5,Q31,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,74,3,0.000178,A
+r1-m3-Q31-l-s3,claude-opus-5-5,Q31,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,74,3,0.000178,B
+r1-m3-Q31-u-s0,claude-opus-5-5,Q31,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,53,3,0.000136,A
+r1-m3-Q31-u-s1,claude-opus-5-5,Q31,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,53,3,0.000136,A
+r1-m3-Q31-u-s2,claude-opus-5-5,Q31,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,53,35,0.000456,A
+r1-m3-Q31-u-s3,claude-opus-5-5,Q31,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,53,3,0.000136,B
+r1-m3-Q37-l-s0,claude-opus-5-5,Q37,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,77,44,0.000594,B
+r1-m3-Q37-l-s1,claude-opus-5-5,Q37,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,77,58,0.000734,A
+r1-m3-Q37-l-s2,claude-opus-5-5,Q37,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,77,45,0.000604,B
+r1-m3-Q37-l-s3,claude-opus-5-5,Q37,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,77,3,0.000184,A
+r1-m3-Q37-u-s0,claude-opus-5-5,Q37,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,56,3,0.000142,B
+r1-m3-Q37-u-s1,claude-opus-5-5,Q37,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,56,3,0.000142,A
+r1-m3-Q37-u-s2,claude-opus-5-5,Q37,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,56,143,0.001542,B
+r1-m3-Q37-u-s3,claude-opus-5-5,Q37,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,56,3,0.000142,A
+r1-m3-Q41-l-s0,claude-opus-5-5,Q41,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,72,3,0.000174,B
+r1-m3-Q41-l-s1,claude-opus-5-5,Q41,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,72,3,0.000174,A
+r1-m3-Q41-l-s2,claude-opus-5-5,Q41,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,72,3,0.000174,B
+r1-m3-Q41-l-s3,claude-opus-5-5,Q41,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,72,17,0.000314,A
+r1-m3-Q41-u-s0,claude-opus-5-5,Q41,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,51,3,0.000132,B
+r1-m3-Q41-u-s1,claude-opus-5-5,Q41,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,51,3,0.000132,A
+r1-m3-Q41-u-s2,claude-opus-5-5,Q41,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,51,3,0.000132,B
+r1-m3-Q41-u-s3,claude-opus-5-5,Q41,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,51,3,0.000132,A
+r1-m3-Q45-l-s0,claude-opus-5-5,Q45,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,82,67,0.000834,A
+r1-m3-Q45-l-s1,claude-opus-5-5,Q45,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,82,169,0.001854,B
+r1-m3-Q45-l-s2,claude-opus-5-5,Q45,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,82,62,0.000784,A
+r1-m3-Q45-l-s3,claude-opus-5-5,Q45,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,82,113,0.001294,A
+r1-m3-Q45-u-s0,claude-opus-5-5,Q45,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,61,119,0.001312,B
+r1-m3-Q45-u-s1,claude-opus-5-5,Q45,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,61,3,0.000152,A
+r1-m3-Q45-u-s2,claude-opus-5-5,Q45,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,61,167,0.001792,B
+r1-m3-Q45-u-s3,claude-opus-5-5,Q45,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,61,3,0.000152,A
+r1-m3-Q51-l-s0,claude-opus-5-5,Q51,labeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,80,51,0.00067,B
+r1-m3-Q51-l-s1,claude-opus-5-5,Q51,labeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,80,35,0.00051,A
+r1-m3-Q51-l-s2,claude-opus-5-5,Q51,labeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,80,41,0.00057,B
+r1-m3-Q51-l-s3,claude-opus-5-5,Q51,labeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,80,40,0.00056,A
+r1-m3-Q51-u-s0,claude-opus-5-5,Q51,unlabeled,0,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,59,70,0.000818,B
+r1-m3-Q51-u-s1,claude-opus-5-5,Q51,unlabeled,1,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,59,72,0.000838,A
+r1-m3-Q51-u-s2,claude-opus-5-5,Q51,unlabeled,2,AB,ok,succeeded,end_turn,B,b,claude-opus-5-5,59,61,0.000728,B
+r1-m3-Q51-u-s3,claude-opus-5-5,Q51,unlabeled,3,BA,ok,succeeded,end_turn,A,b,claude-opus-5-5,59,77,0.000888,A
+r1-m3-Q57-l-s0,claude-opus-5-5,Q57,labeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,77,32,0.000474,A
+r1-m3-Q57-l-s1,claude-opus-5-5,Q57,labeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,77,26,0.000414,B
+r1-m3-Q57-l-s2,claude-opus-5-5,Q57,labeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,77,30,0.000454,A
+r1-m3-Q57-l-s3,claude-opus-5-5,Q57,labeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,77,3,0.000184,B
+r1-m3-Q57-u-s0,claude-opus-5-5,Q57,unlabeled,0,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,56,33,0.000442,A
+r1-m3-Q57-u-s1,claude-opus-5-5,Q57,unlabeled,1,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,56,3,0.000142,B
+r1-m3-Q57-u-s2,claude-opus-5-5,Q57,unlabeled,2,AB,ok,succeeded,end_turn,A,a,claude-opus-5-5,56,33,0.000442,A
+r1-m3-Q57-u-s3,claude-opus-5-5,Q57,unlabeled,3,BA,ok,succeeded,end_turn,B,a,claude-opus-5-5,56,3,0.000142,B
