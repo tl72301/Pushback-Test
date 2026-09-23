@@ -262,7 +262,7 @@ def notify(title, body):
 
 
 def stop_and_notify(title, body):
-    notify(f"Pushback test: {title}", body)
+    notify(f"Pushback test{' (' + _STUDY['name'] + ')' if _STUDY.get('name') else ''}: {title}", body)
     sys.exit(body)
 
 
@@ -470,6 +470,10 @@ def cmd_run():
         write_json(PROGRESS_FILE, progress)
         if (time.time() - started) / 60 > study["max_run_minutes"]:
             save_to_github("Paused at time limit")
+            if os.environ.get("PUSHBACK_AUTORESTART") == "true":
+                print("Time limit reached. Everything is saved. The workflow's schedule continues it within "
+                      "3 hours, or press Run workflow to continue now.")
+                return
             notify("Pushback test paused: press Run again",
                    f"This run hit its time limit while `{stage}` was still processing. Everything so far is "
                    "saved. Go to Actions → Pushback test → Run workflow to continue.")
