@@ -9,9 +9,9 @@ on:
         options: [run, preview, report]
         default: run
       study:
-        description: "follow-up = Sonnet 4.6, Sonnet 5, Fable 5 and Fable 5.1 (study-followup.json). main = the original Opus study (finished)."
+        description: "follow-up = Sonnet 4.6, Sonnet 5, Fable 5 and Fable 5.1 (study-followup.json). replication = the replication bank on Opus and Sonnet. replication-fable = the replication bank on Fable. main = the original Opus study (finished)."
         type: choice
-        options: [follow-up, main]
+        options: [follow-up, replication, replication-fable, main]
         default: follow-up
 
 permissions:
@@ -19,7 +19,7 @@ permissions:
   issues: write     # open an issue to notify you when it finishes or needs you
 
 concurrency:
-  group: pushback-test
+  group: pushback-test-${{ inputs.study || 'follow-up' }}   # one run at a time per study
   cancel-in-progress: false
 
 jobs:
@@ -45,7 +45,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ACTION: ${{ inputs.action || 'run' }}
-          PUSHBACK_STUDY: ${{ inputs.study == 'main' && 'study.json' || 'study-followup.json' }}
+          PUSHBACK_STUDY: ${{ inputs.study == 'main' && 'study.json' || inputs.study == 'replication' && 'study-replication.json' || inputs.study == 'replication-fable' && 'study-replication-fable.json' || 'study-followup.json' }}
         run: python -u pushback.py "$ACTION"
 
       - name: Notify

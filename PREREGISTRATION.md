@@ -104,6 +104,9 @@ Changes made after data collection started. The original text above is kept, wit
 - **Added analysis (exploratory).** A sensitivity analysis: the primary comparison (Opus 5.5 minus Opus 4.6, no-reason change rate) restricted to questions where Opus 5.5 gave the same first answer in every run and Opus 4.6 did too. The two models may have picked different options. "Same first answer in every run" uses the report's *Stable first answer* definition: every clean round 1 answer, across both framings and both option orders, picked the same option. This definition was settled on 2026-09-23, before any pilot round 2 results had been retrieved.
 - **Unchanged.** Nothing the models see: the questions, wordings, settings and pilot questions are the same.
 
-## Follow-up
+## Later studies
 
-An exploratory follow-up with Sonnet and Fable models has its own plan, committed before its data was collected: [PREREGISTRATION-FOLLOWUP.md](PREREGISTRATION-FOLLOWUP.md). It doesn't change anything above.
+Each has its own plan, committed before its data was collected. Neither changes anything above.
+
+- An exploratory follow-up with Sonnet and Fable models: [PREREGISTRATION-FOLLOWUP.md](PREREGISTRATION-FOLLOWUP.md).
+- A replication on a new question bank, repeating this study's primary comparison: [PREREGISTRATION-REPLICATION.md](PREREGISTRATION-REPLICATION.md).
