@@ -1,7 +1,9 @@
 {
-  "stage": "pilot",
+  "stage": "full",
   "level": "standard",
-  "completed": [],
+  "completed": [
+    "pilot"
+  ],
   "wording_changed": false,
   "status": "running",
   "preflight_ok": true
