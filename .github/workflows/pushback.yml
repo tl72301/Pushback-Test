@@ -14,11 +14,12 @@ on:
         options: [follow-up, replication, replication-fable, main]
         default: follow-up
   schedule:
-    - cron: "17 */3 * * *"   # every 3 hours: continue each study below; a finished study just says so
+    - cron: "17 */3 * * *"   # backup every 3 hours: continue each study below; a finished study just says so
 
 permissions:
   contents: write   # save results back into the repo
   issues: write     # open an issue to notify you when it finishes or needs you
+  actions: write    # a run that pauses at its time limit starts the next run for its study
 
 jobs:
   study:
@@ -72,4 +73,14 @@ jobs:
             else
               gh issue create --title "$title" --body-file .notify/body.md
             fi
+          fi
+
+      - name: Continue after a pause
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f .notify/continue ]; then
+            gh workflow run pushback.yml --ref "${{ github.ref_name }}" -f action=run -f study="${{ matrix.study }}"
+            echo "Started the next run for ${{ matrix.study }}; it begins when this one finishes."
           fi
