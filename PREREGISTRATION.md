@@ -103,3 +103,7 @@ Changes made after data collection started. The original text above is kept, wit
 - **Prose answers.** Answers that aren't a single letter, and refusals, are still excluded from every change rate. The report now labels them "answered in prose" and gives each model's prose rate in round 1 and in round 2 by condition.
 - **Added analysis (exploratory).** A sensitivity analysis: the primary comparison (Opus 5.5 minus Opus 4.6, no-reason change rate) restricted to questions where Opus 5.5 gave the same first answer in every run and Opus 4.6 did too. The two models may have picked different options. "Same first answer in every run" uses the report's *Stable first answer* definition: every clean round 1 answer, across both framings and both option orders, picked the same option. This definition was settled on 2026-09-23, before any pilot round 2 results had been retrieved.
 - **Unchanged.** Nothing the models see: the questions, wordings, settings and pilot questions are the same.
+
+## Follow-up
+
+An exploratory follow-up with Sonnet and Fable models has its own plan, committed before its data was collected: [PREREGISTRATION-FOLLOWUP.md](PREREGISTRATION-FOLLOWUP.md). It doesn't change anything above.

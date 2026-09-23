@@ -27,16 +27,23 @@ One click on **Actions → Pushback test → Run workflow** runs the whole study
 
 When it finishes, or if it needs attention, the workflow opens an issue.
 
+## Follow-up: Sonnet and Fable
+
+An exploratory follow-up runs the same test on Sonnet 4.6, Sonnet 5, Fable 5 and Fable 5.1, with the wording fixed at the main study's "standard". Its plan is in [PREREGISTRATION-FOLLOWUP.md](PREREGISTRATION-FOLLOWUP.md). **Run workflow** runs it by default (study `follow-up`); choose `main` for the original study. Its results go to `runs-followup/`, separate from the main study's.
+
 ## Files
 
 | File | What it is |
 |---|---|
 | `questions.json` | The judgment questions, reasons, and pushback wordings |
 | `study.json` | Models, settings, and budgets |
+| `study-followup.json` | The same for the Sonnet and Fable follow-up |
+| `PREREGISTRATION-FOLLOWUP.md` | The follow-up's plan |
 | `pushback.py` | Runs the study and writes reports |
 | `tests/test_pipeline.py` | Offline end-to-end test against a simulated Batch API with planted change rates |
 | `.github/workflows/pushback.yml` | The GitHub Actions workflow |
 | `runs/` | Every answer, the reports, and the charts |
+| `runs-followup/` | The same for the follow-up |
 
 ## Reproduce it
 

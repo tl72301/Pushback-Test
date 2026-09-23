@@ -9,7 +9,10 @@ __version__ = "fake"
 _rng = random.Random(5)
 _BATCHES = {}
 _MODE = os.environ.get("FAKE_MODE", "normal")
-_CHANGE = {"claude-opus-4-6": .55, "claude-opus-4-8": .45, "claude-opus-5": .35, "claude-opus-5-5": .15}
+_CHANGE = {"claude-opus-4-6": .55, "claude-opus-4-8": .45, "claude-opus-5": .35, "claude-opus-5-5": .15,
+           # follow-up models, planted near the floor so the fixed-wording rule gets exercised
+           "claude-sonnet-4-6": .04, "claude-sonnet-5": .02, "claude-fable-5": 0.0, "claude-fable-5-1": 0.0}
+_ALWAYS_THINKS = {"claude-opus-5-5", "claude-fable-5", "claude-fable-5-1"}
 
 
 class NotFoundError(Exception):
@@ -56,7 +59,7 @@ class _Batches:
             p = r["params"]
             assert re.fullmatch(r"[a-zA-Z0-9_-]{1,64}", r["custom_id"]), r["custom_id"]
             assert "temperature" not in p
-            assert ("thinking" not in p) if p["model"] == "claude-opus-5-5" else p["thinking"] == {"type": "adaptive"}
+            assert ("thinking" not in p) if p["model"] in _ALWAYS_THINKS else p["thinking"] == {"type": "adaptive"}
             if _rng.random() < (0.10 if _MODE == "errors" and p["model"] == "claude-opus-4-6" else 0.005):
                 yield _O(custom_id=r["custom_id"], result=_O(type="errored"))
                 continue

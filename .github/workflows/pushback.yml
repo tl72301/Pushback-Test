@@ -8,6 +8,11 @@ on:
         type: choice
         options: [run, preview, report]
         default: run
+      study:
+        description: "follow-up = Sonnet 4.6, Sonnet 5, Fable 5 and Fable 5.1 (study-followup.json). main = the original Opus study (finished)."
+        type: choice
+        options: [follow-up, main]
+        default: follow-up
 
 permissions:
   contents: write   # save results back into the repo
@@ -40,6 +45,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ACTION: ${{ inputs.action || 'run' }}
+          PUSHBACK_STUDY: ${{ inputs.study == 'main' && 'study.json' || 'study-followup.json' }}
         run: python -u pushback.py "$ACTION"
 
       - name: Notify
