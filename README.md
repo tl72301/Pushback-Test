@@ -25,7 +25,7 @@ One click on **Actions → Pushback test → Run workflow** runs the whole study
 3. The full run starts automatically if the checks pass.
 4. The report and chart are written, and every step is committed back to this repo.
 
-When it finishes, or if it needs attention, the workflow opens an issue.
+When it finishes, or if it needs attention, the workflow opens an issue. Each run can wait up to about 5½ hours for a batch. After that it saves and stops, and a schedule restarts every unfinished study every 3 hours, so slow batches don't need you to press anything.
 
 ## Follow-up: Sonnet and Fable
 
