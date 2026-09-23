@@ -40,7 +40,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ACTION: ${{ inputs.action || 'run' }}
-        run: python pushback.py "$ACTION"
+        run: python -u pushback.py "$ACTION"
 
       - name: Notify
         if: always()

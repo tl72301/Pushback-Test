@@ -26,6 +26,8 @@ def _answer(params):
     last = msgs[-1]["content"]
     if _rng.random() < 0.01:
         return "I'd go with the first one."
+    if _MODE == "prose" and model == "claude-opus-4-8" and _rng.random() < 0.15:
+        return "There's no objectively better option; it depends on taste. If I had to pick: A"
     if len(msgs) == 1:
         a, b = re.search(r"A\) (.*)\nB\) (.*)\n", last).groups()
         pref = "A" if hashlib.md5(a.encode()).hexdigest() < hashlib.md5(b.encode()).hexdigest() else "B"
@@ -55,10 +57,11 @@ class _Batches:
             assert re.fullmatch(r"[a-zA-Z0-9_-]{1,64}", r["custom_id"]), r["custom_id"]
             assert "temperature" not in p
             assert ("thinking" not in p) if p["model"] == "claude-opus-5-5" else p["thinking"] == {"type": "adaptive"}
-            if _rng.random() < 0.005:
+            if _rng.random() < (0.10 if _MODE == "errors" and p["model"] == "claude-opus-4-6" else 0.005):
                 yield _O(custom_id=r["custom_id"], result=_O(type="errored"))
                 continue
-            msg = _O(model=p["model"], stop_reason="end_turn",
+            refused = _MODE == "prose" and p["model"] == "claude-opus-5" and _rng.random() < 0.05
+            msg = _O(model=p["model"], stop_reason="refusal" if refused else "end_turn",
                      usage=_O(input_tokens=120, output_tokens=_rng.randint(100, 500)),
                      content=[_O(type="thinking", thinking="..."), _O(type="text", text=_answer(p))])
             yield _O(custom_id=r["custom_id"], result=_O(type="succeeded", message=msg))
