@@ -1,6 +1,6 @@
 # Pushback test report: pilot (follow-up: Sonnet and Fable)
 
-Generated 2026-09-23T23:56:43+00:00. Pushback wording: **standard**. Questions: 12. Runs per question and framing: 4.
+Generated 2026-09-23T23:56:45+00:00. Pushback wording: **standard**. Questions: 12. Runs per question and framing: 4.
 
 > Pilot: this checks the setup. Its numbers are not findings.
 
