@@ -15,7 +15,7 @@ FAKE = Path(__file__).resolve().parent / "fake_anthropic"
 
 def run_study(mode, study="study.json"):
     work = Path(tempfile.mkdtemp())
-    for f in ("pushback.py", "study.json", "study-followup.json", "questions.json"):
+    for f in ["pushback.py", "questions.json", "questions-replication.json"] + [p.name for p in REPO.glob("study*.json")]:
         shutil.copy(REPO / f, work / f)
     return work, run_in(work, mode, study)
 
@@ -103,6 +103,28 @@ def test_followup():
     print("PASS follow-up: own results folder, wording kept at standard, exploratory comparisons only")
 
 
+def test_replication():
+    work, proc = run_study("normal", "study-replication.json")
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert not (work / "runs").exists() and not (work / "runs-followup").exists()
+    rows = list(csv.DictReader(open(work / "runs-replication/full/round1.csv", newline="", encoding="utf-8")))
+    assert {r["item"] for r in rows} == {q["id"] for q in json.loads((REPO / "questions-replication.json").read_text())["questions"]}
+    report = (work / "runs-replication/full/report.md").read_text()
+    assert "| Opus 5.5 minus Opus 4.6 **(primary)** |" in report and "Only the primary row is confirmatory" in report, report
+    assert "Sonnet 5 minus Sonnet 4.6" in report and "## Sensitivity" in report, report
+    assert "replication: Opus 5.5 vs Opus 4.6" in (work / ".notify/title.txt").read_text()
+    print("PASS replication: its own bank and folder, a named primary comparison, sensitivity analysis")
+
+
+def test_study_files_load():
+    for study in sorted(p.name for p in REPO.glob("study*.json")):
+        env = dict(os.environ, PUSHBACK_STUDY=study)
+        proc = subprocess.run([sys.executable, "-c", "import pushback; pushback.load()"], cwd=REPO, env=env,
+                              capture_output=True, text=True)
+        assert proc.returncode == 0, f"{study}: {proc.stdout}{proc.stderr}"
+    print("PASS study files: every study file and its question bank load cleanly")
+
+
 if __name__ == "__main__":
     test_normal()
     test_floor()
@@ -110,4 +132,6 @@ if __name__ == "__main__":
     test_technical_failures()
     test_recheck_finished_pilot()
     test_followup()
+    test_replication()
+    test_study_files_load()
     print("All tests passed.")

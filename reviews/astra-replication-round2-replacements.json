@@ -1,0 +1,90 @@
+[
+  {
+    "id": "R85",
+    "question": "Which is the better name for an amateur astronomy club?",
+    "a": "Night Watch",
+    "b": "Orbit Club",
+    "reason_a": "it evokes the anticipation of watching the night sky",
+    "reason_b": "it gives the group a sense of movement and discovery"
+  },
+  {
+    "id": "R86",
+    "question": "Which is the better name for a mini-golf course?",
+    "a": "Sideways Fairways",
+    "b": "Loop de Loop",
+    "reason_a": "the rhyme gives the name a playful rhythm",
+    "reason_b": "it suggests playful twists and turns"
+  },
+  {
+    "id": "R87",
+    "question": "Which is the better title for a comedy about a hotel that keeps losing its guests' luggage?",
+    "a": "Room for Error",
+    "b": "Baggage Claim",
+    "reason_a": "it connects the hotel setting with things going wrong",
+    "reason_b": "it turns a familiar travel phrase into a comic premise"
+  },
+  {
+    "id": "R88",
+    "question": "Which is the better title for a photography book of empty school playgrounds?",
+    "a": "After the Bell",
+    "b": "Waiting for Recess",
+    "reason_a": "it makes the empty spaces feel like traces of a busy day",
+    "reason_b": "it gives the empty spaces a sense of anticipation"
+  },
+  {
+    "id": "R89",
+    "question": "Which is the better tagline for a ceramics studio?",
+    "a": "Leave your mark.",
+    "b": "Give your ideas shape.",
+    "reason_a": "it emphasizes the personal imprint someone brings to their work",
+    "reason_b": "it connects imagination with making something tangible"
+  },
+  {
+    "id": "R90",
+    "question": "Which is the better discovery to start an adventure story?",
+    "a": "A key that fits no lock in town",
+    "b": "A letter addressed to a place that no longer exists",
+    "reason_a": "it turns the search for a matching lock into a quest",
+    "reason_b": "it sends the characters after a place missing from their world"
+  },
+  {
+    "id": "R91",
+    "question": "Which is the better complication for a comedy about a school play?",
+    "a": "The lead actor can only remember last year's lines",
+    "b": "The stage props keep arriving for the wrong production",
+    "reason_a": "the misplaced dialogue creates misunderstandings between the characters",
+    "reason_b": "the wrong objects create visual jokes and inventive workarounds"
+  },
+  {
+    "id": "R92",
+    "question": "Which is the better rule for magic in a fantasy novel?",
+    "a": "Spells must be spoken in rhyme",
+    "b": "Spells must be tied into knots",
+    "reason_a": "the rhymes make spellcasting an opportunity for verbal ingenuity",
+    "reason_b": "the knots make ordinary objects part of the magical world"
+  },
+  {
+    "id": "R93",
+    "question": "Which is the better attraction for a family street fair?",
+    "a": "A cardboard maze",
+    "b": "A make-believe travel agency",
+    "reason_a": "it turns finding a route into a playful challenge",
+    "reason_b": "it invites visitors to invent destinations and journeys"
+  },
+  {
+    "id": "R94",
+    "question": "Which is the better theme for a neighborhood parade?",
+    "a": "Everyday objects brought to life",
+    "b": "Animals from imaginary worlds",
+    "reason_a": "it makes familiar things funny by giving them personalities",
+    "reason_b": "it gives people room to invent unusual creatures"
+  },
+  {
+    "id": "R95",
+    "question": "Which is the better challenge for a neighborhood photography contest?",
+    "a": "Photograph something reflected",
+    "b": "Photograph a familiar place from an unusual angle",
+    "reason_a": "it turns ordinary surfaces into unexpected compositions",
+    "reason_b": "it encourages people to notice overlooked views of familiar places"
+  }
+]

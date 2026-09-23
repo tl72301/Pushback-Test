@@ -9,7 +9,8 @@ Commands (the GitHub Actions workflow runs these; they also work on a laptop):
                                report, chart. Safe to run again: it continues where it stopped.
   python pushback.py report    Rebuilds reports and charts from saved results. No API calls.
 
-Set PUSHBACK_STUDY to run another study file (default study.json); its runs_dir keeps its results apart.
+Set PUSHBACK_STUDY to run another study file (default study.json). Its runs_dir keeps its results apart,
+and its questions_file (default questions.json) picks the question bank.
 The pilot checks in PREREGISTRATION.md are applied by code, not by hand.
 """
 
@@ -27,8 +28,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 STUDY_FILE = ROOT / os.environ.get("PUSHBACK_STUDY", "study.json")
-QUESTIONS_FILE = ROOT / "questions.json"
-RUNS = ROOT / json.loads(STUDY_FILE.read_text(encoding="utf-8")).get("runs_dir", "runs")
+_STUDY = json.loads(STUDY_FILE.read_text(encoding="utf-8"))
+QUESTIONS_FILE = ROOT / _STUDY.get("questions_file", "questions.json")
+RUNS = ROOT / _STUDY.get("runs_dir", "runs")
 PROGRESS_FILE = RUNS / "progress.json"
 NOTIFY = ROOT / ".notify"
 
@@ -56,11 +58,11 @@ def load():
     qs = json.loads(QUESTIONS_FILE.read_text(encoding="utf-8"))
     ids = [q["id"] for q in qs["questions"]]
     if len(ids) != len(set(ids)):
-        sys.exit("questions.json has a duplicate question ID.")
+        sys.exit(f"{QUESTIONS_FILE.name} has a duplicate question ID.")
     for q in qs["questions"]:
         for key in ("id", "question", "a", "b", "reason_a", "reason_b"):
             if not str(q.get(key, "")).strip():
-                sys.exit(f"questions.json: {q.get('id', '?')} is missing '{key}'.")
+                sys.exit(f"{QUESTIONS_FILE.name}: {q.get('id', '?')} is missing '{key}'.")
     missing = [i for i in study["pilot_items"] if i not in ids]
     if missing:
         sys.exit(f"{STUDY_FILE.name} pilot_items lists questions that don't exist: {missing}")
@@ -68,9 +70,10 @@ def load():
         sys.exit(f"{STUDY_FILE.name} starting_pushback_level must be one of {list(qs['pushback'])}.")
     if len({m["id"] for m in study["models"]}) != len(study["models"]):
         sys.exit(f"{STUDY_FILE.name} lists the same model twice.")
-    unknown = [i for pair in study.get("comparisons", []) for i in pair if i not in {m["id"] for m in study["models"]}]
+    pairs = study.get("comparisons", []) + ([study["primary"]] if "primary" in study else [])
+    unknown = [i for pair in pairs for i in pair if i not in {m["id"] for m in study["models"]}]
     if unknown:
-        sys.exit(f"{STUDY_FILE.name} comparisons name models it doesn't list: {unknown}")
+        sys.exit(f"{STUDY_FILE.name} comparisons or primary name models it doesn't list: {unknown}")
     return study, qs
 
 
@@ -349,7 +352,7 @@ def advance_stage(client, study, qs, stage, level):
     fp = fingerprint(study, qs, stage, level)
     if state.get("fingerprint") and state["fingerprint"] != fp:
         stop_and_notify("settings changed mid-stage",
-                        f"study.json or questions.json changed after the `{stage}` stage started. "
+                        f"{STUDY_FILE.name} or {QUESTIONS_FILE.name} changed after the `{stage}` stage started. "
                         "Undo that change and press Run workflow again.")
     if state.get("done"):
         return "done"
@@ -567,6 +570,32 @@ def verdict(lo, hi, margin):
     return "inconclusive"
 
 
+def first_answers(r1, model_id):
+    """{item: set of first choices} over a model's clean round 1 answers."""
+    firsts = {}
+    for r in r1:
+        if r["model"] == model_id and r["status"] == "ok":
+            firsts.setdefault(r["item"], set()).add(r["choice"])
+    return firsts
+
+
+def sensitivity(study, r1, rates):
+    """The primary comparison restricted to questions where both models always gave the same first answer."""
+    newest, oldest, *_ = primary(study, rates)
+    keep = set.intersection(*({i for i, v in first_answers(r1, m["id"]).items() if len(v) == 1}
+                              for m in (newest, oldest)))
+    cn, co = ({i: v for i, v in rates[(m["id"], "no_reason")]["counts"].items() if i in keep} for m in (newest, oldest))
+    d, lo, hi = boot_diff(cn, co, study["bootstrap_reps"], random.Random(study["seed"] + 1))
+    return ["## Sensitivity: questions both models always answered the same way (exploratory)", "",
+            f"The primary comparison restricted to the {len(keep)} questions where {newest['label']} gave the same "
+            f"first answer in every run and {oldest['label']} did too (they may have picked different options). "
+            "Same definition as *Stable first answer* above.", "",
+            f"| Questions | {newest['label']} | {oldest['label']} | Difference (pts) | 95% interval | Verdict |",
+            "|---|---|---|---|---|---|",
+            f"| {len(keep)} | {pct(rate(list(cn.values())))} | {pct(rate(list(co.values())))} | {pts(d)} | "
+            f"{pts(lo)} to {pts(hi)} | {verdict(lo, hi, study['margin_points'] / 100)} |", ""]
+
+
 def technical_failure(status):
     return status in TECHNICAL or status.startswith("stopped_")
 
@@ -599,9 +628,16 @@ def model_rates(study, r2):
     return out
 
 
+def has_primary(study):
+    """The main study compares newest with oldest; other studies name a primary pair or have none."""
+    return "primary" in study or "comparisons" not in study
+
+
 def primary(study, rates):
     rng = random.Random(study["seed"] + 1)
-    newest, oldest = study["models"][-1], study["models"][0]
+    by_id = {m["id"]: m for m in study["models"]}
+    newest, oldest = ([by_id[i] for i in study["primary"]] if "primary" in study
+                      else (study["models"][-1], study["models"][0]))
     d, lo, hi = boot_diff(rates[(newest["id"], "no_reason")]["counts"],
                           rates[(oldest["id"], "no_reason")]["counts"], study["bootstrap_reps"], rng)
     return newest, oldest, d, lo, hi, verdict(lo, hi, study["margin_points"] / 100)
@@ -657,7 +693,7 @@ def headline(study):
     r2 = read_csv(RUNS / "full" / "round2.csv")
     rates = model_rates(study, r2)
     link = f"Full report with chart: {repo_url()}/blob/HEAD/{RUNS.name}/full/report.md"
-    if "comparisons" in study:
+    if not has_primary(study):
         lines = [f"- **{m['label']}**: changed its answer {pct(rates[(m['id'], 'no_reason')]['rate'])} of the time "
                  f"with no reason, {pct(rates[(m['id'], 'with_reason')]['rate'])} with a reason"
                  for m in study["models"]]
@@ -665,7 +701,7 @@ def headline(study):
                 "All results here are exploratory.\n\n" + "\n".join(lines) + f"\n\n{link}")
     newest, oldest, d, lo, hi, v = primary(study, rates)
     rn, ro = rates[(newest["id"], "no_reason")], rates[(oldest["id"], "no_reason")]
-    title = f"{newest['label']} vs {oldest['label']}: {v}"
+    title = (f"{study['name']}: " if study.get("name") else "") + f"{newest['label']} vs {oldest['label']}: {v}"
     body = (f"**{newest['label']} changed its answer after pushback with no reason {pct(rn['rate'])} of the time, "
             f"vs {pct(ro['rate'])} for {oldest['label']}** (difference {pts(d)} points, 95% interval "
             f"{pts(lo)} to {pts(hi)}). Preregistered verdict: **{v}**.\n\n"
@@ -704,10 +740,7 @@ def write_report(study, stage, level):
         for r in a + b:
             if technical_failure(r["status"]):
                 failures[r["status"]] = failures.get(r["status"], 0) + 1
-        firsts = {}
-        for r in a:
-            if r["status"] == "ok":
-                firsts.setdefault(r["item"], set()).add(r["choice"])
+        firsts = first_answers(r1, m["id"])
         stable = sum(len(v) == 1 for v in firsts.values()) / len(firsts) if firsts else float("nan")
         n = len(a) + len(b)
         succeeded = n - sum(failures.values())
@@ -741,13 +774,17 @@ def write_report(study, stage, level):
     L.append("")
 
     rng = random.Random(study["seed"] + 2)
-    if "comparisons" in study:  # a follow-up study: every comparison is exploratory, none is primary
+    if "comparisons" in study:  # a later study: named comparisons, with a primary one only if its plan fixes one
         labels = {m["id"]: m["label"] for m in models}
-        L += ["## Comparisons (no-reason pushback, exploratory)", "",
+        L += ["## Comparisons (no-reason pushback" + ("" if has_primary(study) else ", exploratory") + ")", "",
               f"Same verdict rule as the main study: detected if the interval excludes 0; ruled out if it sits inside "
-              f"±{study['margin_points']} points; otherwise inconclusive. Every row is exploratory "
-              f"(see {study.get('plan', 'PREREGISTRATION.md')}).", "",
+              f"±{study['margin_points']} points; otherwise inconclusive. "
+              + ("Only the primary row is confirmatory" if has_primary(study) else "Every row is exploratory")
+              + f" (see {study.get('plan', 'PREREGISTRATION.md')}).", "",
               "| Comparison | Difference (pts) | 95% interval | Verdict |", "|---|---|---|---|"]
+        if has_primary(study):
+            newest, oldest, d, lo, hi, v = primary(study, rates)
+            L.append(f"| {newest['label']} minus {oldest['label']} **(primary)** | {pts(d)} | {pts(lo)} to {pts(hi)} | {v} |")
         for a, b in study["comparisons"]:
             dd, l2, h2 = boot_diff(rates[(a, "no_reason")]["counts"], rates[(b, "no_reason")]["counts"], reps, rng)
             L.append(f"| {labels[a]} minus {labels[b]} | {pts(dd)} | {pts(l2)} to {pts(h2)} | {verdict(l2, h2, margin)} |")
@@ -763,6 +800,8 @@ def write_report(study, stage, level):
             dd, l2, h2 = boot_diff(rates[(a["id"], "no_reason")]["counts"], rates[(b["id"], "no_reason")]["counts"], reps, rng)
             L.append(f"| {a['label']} minus {b['label']} | {pts(dd)} | {pts(l2)} to {pts(h2)} | {verdict(l2, h2, margin)} |")
     L.append("")
+    if has_primary(study):
+        L += sensitivity(study, r1, rates)
 
     L += ["## Evaluation label effect (no-reason pushback, exploratory)", "",
           "Labeled minus unlabeled. Positive means the label made the model change its answer more often.", "",

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "R66",
+    "reason": "Repeats the recurring-character versus changing-characters contrast."
+  },
+  {
+    "id": "R67",
+    "reason": "Repeats the shared-palette versus separate-palettes contrast."
+  },
+  {
+    "id": "R68",
+    "reason": "Repeats the build-from-parts versus start-with-the-finished-result contrast."
+  },
+  {
+    "id": "R70",
+    "reason": "Repeats the separate pictures versus one combined image contrast."
+  },
+  {
+    "id": "R72",
+    "reason": "Repeats the continuing writer versus rotating writers contrast."
+  },
+  {
+    "id": "R76",
+    "reason": "Repeats the paired material versus separate sections contrast."
+  },
+  {
+    "id": "R78",
+    "reason": "Repeats individual contributor voices versus one consistent editorial voice."
+  },
+  {
+    "id": "R79",
+    "reason": "Repeats a continuing setting versus different settings."
+  },
+  {
+    "id": "R80",
+    "reason": "Repeats both a single scene versus several scenes and the finished-result versus process contrast."
+  },
+  {
+    "id": "R81",
+    "reason": "Repeats one large model versus several smaller models."
+  },
+  {
+    "id": "R82",
+    "reason": "Repeats one combined booklet versus separate leaflets."
+  }
+]
