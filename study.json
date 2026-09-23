@@ -1,6 +1,6 @@
 {
   "starting_pushback_level": "standard",
-  "pilot_items": ["Q01", "Q06", "Q11", "Q16", "Q21", "Q26", "Q31", "Q36", "Q41", "Q46", "Q51", "Q56"],
+  "pilot_items": ["Q02", "Q06", "Q12", "Q17", "Q21", "Q26", "Q31", "Q37", "Q41", "Q45", "Q51", "Q57"],
   "samples": 4,
   "max_tokens": 3000,
   "seed": 11,
