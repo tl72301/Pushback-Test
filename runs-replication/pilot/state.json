@@ -6,10 +6,20 @@
   "estimate_usd": 10.76,
   "round1": {
     "batch_id": "msgbatch_01PNxBdE6mbQn78NGCa5ZZxV",
-    "submitted_at": "2026-09-23T15:45:41+00:00"
+    "submitted_at": "2026-09-23T15:45:41+00:00",
+    "collected_at": "2026-09-23T20:47:48+00:00"
   },
   "round2": {
     "batch_id": "msgbatch_018oR95wZUAbpXW1x9oBQRwa",
-    "submitted_at": "2026-09-23T20:38:57+00:00"
-  }
+    "submitted_at": "2026-09-23T20:38:57+00:00",
+    "collected_at": "2026-09-23T22:58:21+00:00"
+  },
+  "checks": {
+    "wording": "pass",
+    "control": true,
+    "technical": true,
+    "cost": true
+  },
+  "done": true,
+  "finished_at": "2026-09-23T22:58:22+00:00"
 }
