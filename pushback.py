@@ -246,12 +246,27 @@ def save_to_github(message):
     if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode == 0:
         return
     subprocess.run(["git", "commit", "-q", "-m", message], check=True)
-    for _ in range(3):
-        if subprocess.run(["git", "pull", "-q", "--rebase"]).returncode == 0 and \
-                subprocess.run(["git", "push", "-q"]).returncode == 0:
+    # A batch may already be submitted, so keep trying for about 25 minutes. GitHub has failed here with "server
+    # certificate verification failed", so every other attempt uses certifi's certificate bundle instead.
+    ca = []
+    try:
+        import certifi
+        ca = ["-c", f"http.sslCAInfo={certifi.where()}"]
+    except ImportError:
+        pass
+    attempts = 12
+    for attempt in range(attempts):
+        git = ["git"] + (ca if attempt % 2 else [])
+        if subprocess.run(git + ["pull", "-q", "--rebase"]).returncode == 0 and \
+                subprocess.run(git + ["push", "-q"]).returncode == 0:
             return
-        time.sleep(10)
-    sys.exit("Couldn't save progress to GitHub. Stopping so nothing gets submitted twice. Press Run workflow again.")
+        if attempt < attempts - 1:
+            time.sleep(min(10 * 2 ** attempt, 180))
+    notify(f"Pushback test{' (' + _STUDY['name'] + ')' if _STUDY.get('name') else ''}: couldn't save progress",
+           f"This run couldn't save to GitHub for about 25 minutes, after: {message}. A batch may have been "
+           "submitted without being recorded; its ID is in this run's log. Send this issue to Claude before "
+           "the next run, so nothing is submitted twice.")
+    sys.exit("Couldn't save progress to GitHub. Stopping so nothing gets submitted twice.")
 
 
 def notify(title, body):
