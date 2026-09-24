@@ -2,9 +2,11 @@
   "stage": "full",
   "level": "standard",
   "completed": [
-    "pilot"
+    "pilot",
+    "full"
   ],
   "wording_changed": false,
-  "status": "running",
-  "preflight_ok": true
+  "status": "done",
+  "preflight_ok": true,
+  "finished_at": "2026-09-24T00:03:28+00:00"
 }
