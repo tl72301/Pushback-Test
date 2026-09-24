@@ -1,6 +1,6 @@
 # Results: Pushback test
 
-Four studies, run on 23 and 24 September 2026, measured how often eight Claude models change their answer to a judgment question when a user pushes back, with no reason and with a short reason. This page brings the results together. Each study's plan was committed to this repo before its data was collected, and each study has an automatic report with the full numbers.
+Four studies, run on 23 and 24 September 2026, measured how often eight Claude models change their answer to a judgment question when a user pushes back, with no reason and with a short reason. This page brings the results together. Each study's plan was committed to this repo before its data was collected, and each study has an automatic report with the full numbers. I designed and ran the studies with AI assistance; [Who did what](#who-did-what) sets out my decisions and what AI did.
 
 ## Summary
 
@@ -19,6 +19,28 @@ Four studies, run on 23 and 24 September 2026, measured how often eight Claude m
 - **Follow-up.** Original question bank. Sonnet 4.6, Sonnet 5, Fable 5 and Fable 5.1. Exploratory only. Plan: [PREREGISTRATION-FOLLOWUP.md](PREREGISTRATION-FOLLOWUP.md). Report: [runs-followup/full/report.md](runs-followup/full/report.md).
 - **Replication.** New question bank. Opus 4.6, 4.8, 5 and 5.5, Sonnet 4.6 and Sonnet 5. Confirmatory test: Opus 5.5 against Opus 4.6 again. Plan: [PREREGISTRATION-REPLICATION.md](PREREGISTRATION-REPLICATION.md). Report: [runs-replication/full/report.md](runs-replication/full/report.md).
 - **Replication: Fable.** New question bank. Fable 5 and Fable 5.1, in their own batches. Exploratory. Same plan. Report: [runs-replication-fable/full/report.md](runs-replication-fable/full/report.md).
+
+## Who did what
+
+I designed and ran these studies and made their key decisions. AI tools built the pipeline, drafted the questions and helped with the analysis. The decisions were deliberate, and the plans record the reasoning behind the main ones.
+
+**My decisions**
+
+- **What to test.** How Claude models respond when a user pushes back on a judgment call, with pushback that gives a reason as a control, so that resisting empty pushback can be told apart from plain stubbornness. An evaluation label tests whether models act differently when told they're being evaluated.
+- **Preregistration.** Every study's plan, verdict rule and pilot checks were committed publicly before its data was collected, along with a commitment to publish every result, including nulls.
+- **An independent question screen.** I had both question banks screened by Astra, an AI model from another lab, so the questions weren't vetted only by the family of models under test. The new bank went through a second round of screening and leaves out questions of purely personal taste.
+- **A logged amendment, not a quiet fix.** When Opus 4.8's prose answers would have stopped the main study's pilot over model behavior rather than a technical fault, I changed the rule openly. I logged the change as a deviation before seeing any round 2 results and added a sensitivity analysis at the same time.
+- **Extending the study.** I added Sonnet and Fable without rerunning Opus, to keep costs down. Then I built a second question bank to test whether the main result replicated, naming the same confirmatory comparison in advance.
+- **Comparability.** Every study used the same settings and the main study's pushback wording. I ran Fable in its own batches so a slow queue couldn't hold up the other models.
+- **Oversight.** I set the spending limits, followed every run, and had the data checked for quality before accepting any result.
+
+**What AI did**
+
+- **Claude**, Anthropic's AI, wrote all the code, drafted the questions for both banks, drafted the plans and this page from my decisions, and ran the analyses.
+- **Astra**, from another lab, screened both banks and wrote the replacement questions.
+- **No AI judged the answers.** Code read each one-letter answer, and the preregistered verdict rule, applied by code, classified every comparison.
+
+Claude belongs to the family of models under test. The independent question screen, and verdicts produced by code under rules fixed in advance, limit how much that could matter.
 
 ## How it worked
 
@@ -138,8 +160,8 @@ Only Opus 4.6 showed a label effect on both banks: told the question was part of
 - When two models or framings both sit near 0% or near 100%, this test can't tell them apart, and "ruled out" there says little.
 - Comparisons across studies are between separate runs, some on different days.
 - The follow-up and replication were designed after the main study's results were known.
-- Claude drafted the questions, and another AI model screened them and wrote the replacements. There was no human review.
-- Claude also helped design, run and analyze the studies and wrote this page. The confirmatory tests and their verdict rule were fixed in advance; the reason gap, token counts and position lean were chosen afterwards.
+- Claude drafted the questions, and Astra, another AI model, screened them and wrote the replacements. No person reviewed the questions themselves.
+- AI helped design, run and analyze the studies and drafted this page (see [Who did what](#who-did-what)). The confirmatory tests and their verdict rule were fixed in advance; the reason gap, token counts and position lean were chosen afterwards.
 - Results describe these model versions, at low effort with these settings, on these dates. At higher effort, the models that barely thought might behave differently.
 - Only the two primary comparisons are confirmatory. Everything else is exploratory, and with this many comparisons some "detected" results are likely chance.
 

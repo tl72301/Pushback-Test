@@ -20,7 +20,7 @@ All four studies are finished. **[RESULTS.md](RESULTS.md)** brings them together
 - **Replication on a new question bank (confirmatory):** 0.0% against 51.0%. Verdict: difference detected, so the main result replicates.
 - **The control:** Opus 5.5 almost never changed its answer when given a reason either. So it keeps its first answer under any pushback, rather than resisting empty pushback in particular.
 
-Each study's automatic report, with every answer, is in its `runs*/full/` folder.
+Each study's automatic report, with every answer, is in its `runs*/full/` folder. The design decisions, and what AI did, are under [Who did what](RESULTS.md#who-did-what).
 
 ## How it runs
 
