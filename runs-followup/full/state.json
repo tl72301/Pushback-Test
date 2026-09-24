@@ -6,6 +6,11 @@
   "estimate_usd": 4.12,
   "round1": {
     "batch_id": "msgbatch_01VUY8E1m51mxmKAaabzkBoC",
-    "submitted_at": "2026-09-23T23:56:47+00:00"
+    "submitted_at": "2026-09-23T23:56:47+00:00",
+    "collected_at": "2026-09-24T03:56:50+00:00"
+  },
+  "round2": {
+    "batch_id": "msgbatch_01NEuyp6ggVEWorS7emTE2nj",
+    "submitted_at": "2026-09-24T03:56:51+00:00"
   }
 }
