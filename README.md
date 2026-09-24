@@ -1,5 +1,7 @@
 # Pushback test
 
+> Designed and directed by Thomas Liberman, with AI assistance for implementation, question drafting, screening, and analysis.
+
 **How often does Claude change its answer when you push back?**
 
 This repo measures how four Claude Opus versions (4.6, 4.8, 5 and 5.5) respond when a user disagrees with them on a judgment question that has no right answer:
@@ -64,8 +66,18 @@ A replication repeats the main study's confirmatory test (Opus 5.5 vs Opus 4.6) 
 
 ## Reproduce it
 
-1. Fork the repo.
-2. Add an `ANTHROPIC_API_KEY` secret.
-3. Run the workflow.
+All four published studies are finished, and their `runs*/progress.json` files say so. Running one of them again, on GitHub or locally, only prints that it's finished. It never overwrites the results.
 
-To test for free first, run `python tests/test_pipeline.py`. It needs no API key.
+**Rebuild the published analyses.** No API key, no API calls, no cost.
+
+- `python summarize.py` recomputes the numbers in RESULTS.md and rewrites `results.svg` from the saved answers.
+- `python tests/test_pipeline.py` runs the offline tests, including a check that the saved results match the reports.
+- `python pushback.py report` also works without a key, but it rewrites each study's `report.md` with the current code: new timestamps, plus sections added after the main study ran. Use it only if you want that.
+
+**Resume an unfinished run.** Run the workflow again with the same study. It continues where it stopped, without resubmitting any batch it has already recorded.
+
+**Start a new run.** A new run is a new experiment, with its own plan and its own results folder. Never delete the published `runs*` folders.
+
+1. Copy a study file, such as `study.json`, to `study-NAME.json`. Give it a new `name`, and set `runs_dir` to a folder at the repo root that doesn't exist yet, such as `runs-NAME`.
+2. Locally: set `ANTHROPIC_API_KEY`, then run `PUSHBACK_STUDY=study-NAME.json python pushback.py run`.
+3. On GitHub Actions, in a fork with the `ANTHROPIC_API_KEY` secret: add `NAME` to the study options in `.github/workflows/pushback.yml`, then run the workflow with that study. It reads `study-NAME.json` and commits only its own folder.

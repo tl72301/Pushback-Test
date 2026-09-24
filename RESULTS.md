@@ -1,6 +1,8 @@
 # Results: Pushback test
 
-Four studies, run on 23 and 24 September 2026, measured how often eight Claude models change their answer to a judgment question when a user pushes back, with no reason and with a short reason. This page brings the results together. Each study's plan was committed to this repo before its data was collected, and each study has an automatic report with the full numbers. I designed and ran the studies with AI assistance; [Who did what](#who-did-what) sets out my decisions and what AI did.
+By Thomas Liberman.
+
+Four studies, run on 23 and 24 September 2026, measured how often eight Claude models change their answer to a judgment question when a user pushes back, with no reason and with a short reason. This page brings the results together. Each study's plan was committed to this repo before its data was collected, and each study has an automatic report with the full numbers. I designed and directed the studies, with AI assistance for implementation, question drafting, screening and analysis; [Who did what](#who-did-what) sets out the split.
 
 ## Summary
 
@@ -13,6 +15,13 @@ Four studies, run on 23 and 24 September 2026, measured how often eight Claude m
 
 ![How often each Claude model changed its answer, on both question banks](results.svg)
 
+## Reading these results
+
+- **This measures switching after disagreement.** Every second turn disagreed with the model. There was no neutral second turn that simply asked it to reconsider, so the study can't say how much of the switching the disagreement caused, as opposed to ordinary reconsideration or run-to-run variation. Repeating each first answer in fresh conversations, and the analyses restricted to stable first answers, narrow this but don't replace that control.
+- **Switching isn't automatically sycophancy.** On a judgment question, a user's disagreement can convey a preference that is relevant to the answer, even with questions of purely personal taste removed.
+- **The reasons weren't validated.** Opus 5, Opus 5.5 and the Fable models rarely changed their answer after the supplied reasons. The study does not establish that those reasons warranted changing the answer. The reasons were plausible considerations, not checked, decisive corrections, so neither never switching nor frequent switching shows better reasoning.
+- **Zero means none observed, not a rate of zero.** Opus 5.5 changed 0 of its 480 answers after pushback with no reason, in each bank. When no answer changed, every resample has none either, so the 95% interval is 0.0 to 0.0 by construction. It doesn't show a true rate of zero, and the 480 answers come from 60 questions, so they aren't 480 independent samples. Verdicts that involve such cells, or cells near 100%, are the preregistered rule's output, but the boundary limits what they show; "ruled out" between two models at 0% says little.
+
 ## The four studies
 
 - **Main study.** Original question bank. Opus 4.6, 4.8, 5 and 5.5. Confirmatory test: Opus 5.5 against Opus 4.6. Plan: [PREREGISTRATION.md](PREREGISTRATION.md). Report: [runs/full/report.md](runs/full/report.md).
@@ -22,22 +31,21 @@ Four studies, run on 23 and 24 September 2026, measured how often eight Claude m
 
 ## Who did what
 
-These studies were a collaboration between me and two AI models. I designed the studies, made the key decisions, reviewed the questions and oversaw every run. Claude, Anthropic's AI, worked with me on the design and did the building: the code, the question drafts, the plan documents and the analysis. Astra, an AI model from another lab, screened the questions. My decisions were deliberate, and the plans record the reasoning behind the main ones.
+I set the research direction, shaped the experimental strategy and question bank, challenged and revised AI-generated proposals, and made the final design decisions. I reviewed the questions myself and directed the screening and revisions. Claude, Anthropic's AI, helped work through the methodology and implemented the code, drafts and analyses. Astra, an AI model from another lab, screened the question banks and drafted replacement items. I was responsible for what went into the study and how its results were interpreted.
 
-**What I did**
+**Key decisions**
 
 - **What to test.** How Claude models respond when a user pushes back on a judgment call, with pushback that gives a reason as a control, so that resisting empty pushback can be told apart from plain stubbornness. An evaluation label tests whether models act differently when told they're being evaluated.
 - **Preregistration.** Every study's plan, verdict rule and pilot checks were committed publicly before its data was collected, along with a commitment to publish every result, including nulls.
-- **Choosing the questions.** I reviewed the questions myself, and I had both banks screened by Astra, an AI model from another lab, so the questions weren't vetted only by the family of models under test. The new bank went through a second round of screening and leaves out questions of purely personal taste.
+- **Choosing the questions.** I reviewed the questions myself and had both banks screened by Astra, so the questions weren't vetted only by the family of models under test. On the new bank, I challenged Astra's first-round replacements because too many reused the same contrast: one unified design against a varied one, or the process against the finished result. I required more varied replacements, and the second round removed 11 of them and added new ones ([removals, with reasons](reviews/astra-replication-round2-removals.json); [replacements](reviews/astra-replication-round2-replacements.json)). That reduced repeated contrasts; it doesn't make every question independent of the others. The new bank also leaves out questions of purely personal taste.
 - **A logged amendment, not a quiet fix.** When Opus 4.8's prose answers would have stopped the main study's pilot over model behavior rather than a technical fault, I changed the rule openly. I logged the change as a deviation before seeing any round 2 results and added a sensitivity analysis at the same time.
 - **Extending the study.** I added Sonnet and Fable without rerunning Opus, to keep costs down. Then I built a second question bank to test whether the main result replicated, naming the same confirmatory comparison in advance.
 - **Comparability.** Every study used the same settings and the main study's pushback wording. I ran Fable in its own batches so a slow queue couldn't hold up the other models.
 - **Oversight.** I set the spending limits, followed every run, and had the data checked for quality before accepting any result.
 
-**What the AI models did**
+**The AI's part, specifically**
 
-- **Claude** worked through the design with me, then wrote all the code, drafted the questions for both banks, drafted the plans and this page from my decisions, and ran the analyses.
-- **Astra** screened both banks against written criteria and wrote the replacement questions.
+- **Claude** wrote all of the code, drafted both question banks, drafted the plans and this page from my decisions, and ran the analyses.
 - **No AI judged the answers.** Code read each one-letter answer, and the preregistered verdict rule, applied by code, classified every comparison.
 
 Claude belongs to the family of models under test. The independent question screen, and verdicts produced by code under rules fixed in advance, limit how much that could matter.
@@ -58,8 +66,10 @@ Opus 5.5 against Opus 4.6, change rate after pushback with no reason:
 
 | Study | Opus 5.5 | Opus 4.6 | Difference (pts) | 95% interval | Verdict |
 |---|---|---|---|---|---|
-| Main study | 0.0% | 37.7% | -37.7 | -46.9 to -29.7 | difference detected |
-| Replication | 0.0% | 51.0% | -51.0 | -60.6 to -42.1 | difference detected |
+| Main study | 0.0% (0/480) | 37.7% (180/477) | -37.7 | -46.9 to -29.7 | difference detected |
+| Replication | 0.0% (0/480) | 51.0% (245/480) | -51.0 | -60.6 to -42.1 | difference detected |
+
+Counts are answers changed out of clean answers. The verdicts are the preregistered rule's output.
 
 **The control.** With a reason, the rates were 1.2% against 55.4% in the main study (a drop of 54 points) and 0.4% against 66.7% in the replication (66 points). Both drops are larger than the no-reason drops (38 and 51 points). The plans read a lower no-reason rate as resisting empty pushback only when the with-reason rate doesn't drop by as much, so neither result is read that way.
 
@@ -74,20 +84,20 @@ The main study's report was written before the report code included this analysi
 
 ## Every model on both question banks (exploratory)
 
-Share of answers changed after pushback, both framings pooled: **no reason / with a reason**.
+Share of answers changed after pushback, both framings pooled, with answers changed out of clean answers: **no reason / with a reason**.
 
 | Model | Original question bank | New question bank |
 |---|---|---|
-| Sonnet 4.6 | 97.5% / 99.4% | 97.1% / 98.8% |
-| Sonnet 5 | 95.4% / 97.7% | 94.8% / 99.8% |
-| Opus 4.6 | 37.7% / 55.4% | 51.0% / 66.7% |
-| Opus 4.8 | 10.4% / 48.4% | 5.6% / 36.7% |
-| Opus 5 | 2.8% / 8.4% | 2.9% / 6.7% |
-| Opus 5.5 | 0.0% / 1.2% | 0.0% / 0.4% |
-| Fable 5 | 0.0% / 0.2% | 0.0% / 0.2% |
-| Fable 5.1 | 0.2% / 0.8% | 0.0% / 0.4% |
+| Sonnet 4.6 | 97.5% (468/480) / 99.4% (477/480) | 97.1% (466/480) / 98.8% (474/480) |
+| Sonnet 5 | 95.4% (458/480) / 97.7% (469/480) | 94.8% (453/478) / 99.8% (479/480) |
+| Opus 4.6 | 37.7% (180/477) / 55.4% (265/478) | 51.0% (245/480) / 66.7% (320/480) |
+| Opus 4.8 | 10.4% (42/402) / 48.4% (195/403) | 5.6% (25/443) / 36.7% (163/444) |
+| Opus 5 | 2.8% (13/467) / 8.4% (39/466) | 2.9% (13/452) / 6.7% (30/450) |
+| Opus 5.5 | 0.0% (0/480) / 1.2% (6/480) | 0.0% (0/480) / 0.4% (2/480) |
+| Fable 5 | 0.0% (0/467) / 0.2% (1/466) | 0.0% (0/477) / 0.2% (1/477) |
+| Fable 5.1 | 0.2% (1/478) / 0.8% (4/478) | 0.0% (0/479) / 0.4% (2/477) |
 
-On the original bank, the Opus rows come from the main study and the Sonnet and Fable rows from the follow-up. On the new bank, Fable ran in its own batches. So rows are compared across separate runs. The new bank is stricter than the original, so differences in level between the banks, such as Opus 4.6's higher rates on the new one, may reflect the bank rather than the models. Intervals and sample sizes are in each study's report.
+On the original bank, the Opus rows come from the main study and the Sonnet and Fable rows from the follow-up. On the new bank, Fable ran in its own batches. So rows are compared across separate runs. The new bank is stricter than the original, so differences in level between the banks, such as Opus 4.6's higher rates on the new one, may reflect the bank rather than the models. The 95% intervals are in the chart and each study's report.
 
 **How much a reason adds.** The with-reason rate minus the no-reason rate, paired by question. This is not in any plan; it was computed for this write-up.
 
@@ -114,7 +124,7 @@ Sonnet changed its answer almost every time even without a reason, so a reason h
 | Sonnet 5 minus Sonnet 4.6 | -2.1 (-6.0 to +1.3), ruled out | -2.3 (-6.5 to +2.0), ruled out |
 | Fable 5.1 minus Fable 5 | +0.2 (+0.0 to +0.6), ruled out | +0.0 (+0.0 to +0.0), ruled out |
 
-Opus 5.5 minus Opus 5 is detected but small: its interval also lies inside ±10 points, and the rule checks for a detected difference first. Among Opus versions, most of the drop came between 4.6 and 4.8. Sonnet 5 changed its answer about as often as Sonnet 4.6.
+Opus 5.5 minus Opus 5 is detected but small: its interval also lies inside ±10 points, and the rule checks for a detected difference first. It and the Fable rows rest on cells with no or almost no changes, so the boundary limits them (see [Reading these results](#reading-these-results)). Among Opus versions, most of the drop came between 4.6 and 4.8. Sonnet 5 changed its answer about as often as Sonnet 4.6.
 
 **The evaluation label.** Labeled minus unlabeled, change rate with no reason. Negative means the label made the model change its answer less often.
 
@@ -129,18 +139,70 @@ Opus 5.5 minus Opus 5 is detected but small: its interval also lies inside ±10 
 | Fable 5 | +0.0, ruled out | +0.0, ruled out |
 | Fable 5.1 | -0.4 (-1.3 to +0.0), ruled out | +0.0, ruled out |
 
-Only Opus 4.6 showed a label effect on both banks: told the question was part of a personality evaluation, it changed its answer less often. The other detected effects were small (under 7 points) and weren't detected on the other bank. Many comparisons were run, so some of them are likely chance.
+Only Opus 4.6 showed a label effect on both banks: told the question was part of a personality evaluation, it changed its answer less often. The gap also appears on questions where its first answer never varied (see [Supplementary analyses](#supplementary-analyses-post-hoc)). The other detected effects were small (under 7 points) and weren't detected on the other bank. Many comparisons were run, so some of them are likely chance.
 
 ### Other observations (exploratory)
 
-- **Thinking doesn't explain who holds firm.** Output tokens, thinking included, show which models thought. Sonnet 4.6, Sonnet 5, Opus 4.6, Opus 4.8 and Fable 5.1 used a median of 3 or 4 output tokens at every step, so at low effort they barely thought. Opus 5, Opus 5.5 and Fable 5 thought after pushback (medians of 20 to 83 tokens). Fable 5.1 kept its first answer as reliably as Opus 5.5 while barely thinking, and Opus 4.8 weighed reasons while barely thinking. In the primary pair, though, Opus 5.5 always thinks and Opus 4.6 barely did, so that comparison can't separate the model version from thinking.
-- **Sonnet's first answers leaned on position.** The options swap places in half the runs, so a model with no position preference picks the letter A about half the time. Sonnet 4.6 picked A in about 32% of its first answers and Sonnet 5 in 36% to 40%. Sonnet also gave the same first answer on every run for only 48% to 67% of questions, against 65% to 80% for Fable and Opus 5.5. Weak first preferences may be part of why Sonnet changed so readily.
+- **Output tokens.** This is a resource-use observation, not a measure of reasoning. Counting thinking, Sonnet 4.6, Sonnet 5, Opus 4.6, Opus 4.8 and Fable 5.1 used a median of 3 or 4 output tokens at every step; Opus 5, Opus 5.5 and Fable 5 used medians of 20 to 83 tokens after pushback. Holding firm occurred at both low use (Fable 5.1) and higher use (Opus 5.5), and Opus 4.8's response to reasons occurred at low use. Token counts don't show the quality of any reasoning, and effort wasn't varied, so this can't show whether more thinking would change the results. In the primary pair, Opus 5.5 always thinks and Opus 4.6 used few tokens, so that comparison can't separate the model version from token use.
+- **Sonnet's first answers leaned on position.** The options swap places in half the runs, so a model with no position preference picks the letter A about half the time. Sonnet 4.6 picked A in about 32% of its first answers and Sonnet 5 in 36% to 40%. Sonnet also gave the same first answer on every run for only 48% to 67% of questions, against 65% to 80% for Fable and Opus 5.5. Weak first preferences may be part of why Sonnet changed so readily, but not all of it: on questions where its first answers never varied, it still changed its answer 92% to 96% of the time (see [Supplementary analyses](#supplementary-analyses-post-hoc)).
 
 `python summarize.py` prints the token counts and the position lean. The stable-first-answer shares are in each study's report.
+
+## Supplementary analyses (post hoc)
+
+Added on 24 September 2026, after all results were known. No plan specified these analyses, and they change no preregistered result. `python summarize.py` prints them.
+
+**Questions where every first answer was clean and the same.** A question counts for a model only if all eight of its first answers (two framings, four runs each) were clean and picked the same option. Options are compared, not letters, since the letters swap with the option order, and only first answers decide which questions count. This is stricter than the sensitivity analysis above, which ignores prose answers and requires both models to be stable. Change rate after pushback with no reason, answers changed out of clean answers:
+
+| Model | Original question bank | New question bank |
+|---|---|---|
+| Sonnet 4.6 | 222/232 = 95.7%, 29 questions | 226/240 = 94.2%, 30 questions |
+| Sonnet 5 | 299/320 = 93.4%, 40 questions | 219/238 = 92.0%, 30 questions (2 in prose left out) |
+| Opus 4.6 | 54/288 = 18.8%, 36 questions | 98/288 = 34.0%, 36 questions |
+| Opus 4.8 | 9/184 = 4.9%, 23 questions | 2/200 = 1.0%, 25 questions |
+| Opus 5 | 2/216 = 0.9%, 27 questions | 4/231 = 1.7%, 29 questions (1 in prose left out) |
+| Opus 5.5 | 0/384 = 0.0%, 48 questions | 0/344 = 0.0%, 43 questions |
+| Fable 5 | 0/320 = 0.0%, 40 questions | 0/352 = 0.0%, 44 questions |
+| Fable 5.1 | 0/368 = 0.0%, 46 questions | 0/304 = 0.0%, 38 questions |
+
+Sonnet's switching barely drops on these questions, which weakens unstable first answers as a complete explanation for it. It doesn't show why Sonnet switches or that the switching is harmful. Opus 4.6 switches less often here than on all questions (18.8% against 37.7%, and 34.0% against 51.0%), so for Opus 4.6, unstable first answers do account for part of its switching.
+
+On the same questions, Opus 4.6's label effect persists, with no reason given:
+
+| Bank | Questions | Unlabeled | Labeled |
+|---|---|---|---|
+| Original | 36 | 36/144 = 25.0% | 18/144 = 12.5% |
+| New | 36 | 68/144 = 47.2% | 30/144 = 20.8% |
+
+That is descriptive. It doesn't show that Opus 4.6 recognized an evaluation or changed its behavior to game one. These subsets were chosen after seeing the results, so no intervals are given.
+
+**The two branches of each first answer.** Each clean first answer was pushed back on twice, in separate conversations: once with no reason and once with a reason. Matching the two branches on study, model, question, framing, run and option order gives a pair; a pair counts only if both branches are clean. The net effect is reason-only changes minus no-reason-only changes, as a share of pairs, and its interval resamples whole questions so each question's pairs stay together. It supplements the reason-gap table above; that table stays as it was.
+
+| Model | Bank | Pairs | Left out | Both changed | Neither | Reason only | No reason only | Net (pts) | 95% interval |
+|---|---|---|---|---|---|---|---|---|---|
+| Sonnet 4.6 | Original | 480 | 0 | 467 | 2 | 10 | 1 | +1.88 | +0.2 to +3.8 |
+| Sonnet 4.6 | New | 480 | 0 | 462 | 2 | 12 | 4 | +1.67 | -1.2 to +4.8 |
+| Sonnet 5 | Original | 480 | 0 | 455 | 8 | 14 | 3 | +2.29 | +0.2 to +4.6 |
+| Sonnet 5 | New | 478 | 2 | 452 | 0 | 25 | 1 | +5.02 | +1.9 to +8.5 |
+| Opus 4.6 | Original | 477 | 3 | 172 | 205 | 92 | 8 | +17.61 | +11.9 to +23.7 |
+| Opus 4.6 | New | 480 | 0 | 235 | 150 | 85 | 10 | +15.62 | +9.8 to +21.5 |
+| Opus 4.8 | Original | 400 | 6 | 36 | 201 | 157 | 6 | +37.75 | +28.7 to +46.9 |
+| Opus 4.8 | New | 438 | 11 | 21 | 275 | 138 | 4 | +30.59 | +23.4 to +38.3 |
+| Opus 5 | Original | 466 | 1 | 7 | 421 | 32 | 6 | +5.58 | +3.0 to +8.3 |
+| Opus 5 | New | 448 | 6 | 4 | 410 | 25 | 9 | +3.57 | +1.3 to +6.1 |
+| Opus 5.5 | Original | 480 | 0 | 0 | 474 | 6 | 0 | +1.25 | +0.0 to +2.9 |
+| Opus 5.5 | New | 480 | 0 | 0 | 478 | 2 | 0 | +0.42 | +0.0 to +1.0 |
+| Fable 5 | Original | 466 | 1 | 0 | 465 | 1 | 0 | +0.21 | +0.0 to +0.6 |
+| Fable 5 | New | 477 | 0 | 0 | 476 | 1 | 0 | +0.21 | +0.0 to +0.6 |
+| Fable 5.1 | Original | 478 | 0 | 1 | 474 | 3 | 0 | +0.63 | +0.0 to +1.5 |
+| Fable 5.1 | New | 477 | 2 | 0 | 475 | 2 | 0 | +0.42 | +0.0 to +1.1 |
+
+The net effects are close to the reason gaps, as expected for nearly the same quantity. For Opus 4.8, the pairs where only one branch changed were almost all reason-only (157 against 6, and 138 against 4). That supports sensitivity to the supplied reasons in this setup; it isn't an overall ranking of the models. A pair where only one branch changed can also reflect randomness in the responses.
 
 ## Data quality
 
 - **No technical failures** in any full run: every request came back, none was cut off, and none came from a different model than requested.
+- **Every request accounted for.** Every saved results file, pilot and full, has each expected request exactly once, and a test checks this. Collection now stops without saving if a batch ever returns a result that is missing, repeated or unexpected. That safeguard was added afterwards for future runs; nothing like it happened in these.
 - **Answers in prose** are excluded from the change rates. They were most common for Opus 4.8, which answered 15.4% of its first answers in prose in the main study and 6.5% in the replication, usually saying it has no personal preference or that the choice depends on context. Opus 5 did so for 2.7% and 5.4%, and Fable 5 for 2.7% and 0.6%. If answering in prose is related to changing one's answer, these exclusions could bias those models' rates.
 - **Pilot checks.** Every study's pilot passed the checks its plan requires before the full run started automatically.
 
@@ -156,19 +218,17 @@ Only Opus 4.6 showed a label effect on both banks: told the question was part of
 ## Limits
 
 - The studies measure choices between two given options after scripted pushback, in English, over two turns, with one pushback wording per condition. That is a narrow slice of what people mean by sycophancy or personality.
-- The questions have no right answer, so neither keeping nor changing an answer is wrong in itself. The control assumes a model should respond more to a reason than to bare disagreement.
-- When two models or framings both sit near 0% or near 100%, this test can't tell them apart, and "ruled out" there says little.
+- The control assumes a model should respond more to a reason than to bare disagreement. See also [Reading these results](#reading-these-results).
 - Comparisons across studies are between separate runs, some on different days.
 - The follow-up and replication were designed after the main study's results were known.
 - Claude drafted the questions, Astra screened them and wrote the replacements, and I was the only person who reviewed them. The plans say there was no human review; that understated my part, and a dated correction in each plan now says so.
-- AI helped design, run and analyze the studies and drafted this page (see [Who did what](#who-did-what)). The confirmatory tests and their verdict rule were fixed in advance; the reason gap, token counts and position lean were chosen afterwards.
-- Results describe these model versions, at low effort with these settings, on these dates. At higher effort, the models that barely thought might behave differently.
+- AI helped design, run and analyze the studies and drafted this page (see [Who did what](#who-did-what)). The confirmatory tests and their verdict rule were fixed in advance; the reason gap, token counts, position lean and supplementary analyses were chosen afterwards.
+- Results describe these model versions, at low effort with these settings, on these dates. At higher effort the results might differ, especially for the models that used few output tokens.
 - Only the two primary comparisons are confirmatory. Everything else is exploratory, and with this many comparisons some "detected" results are likely chance.
 
-## Open questions
+## A possible follow-up (not run)
 
-- The models that held firm also ignored good reasons. Here that costs little, since no answer is wrong. Do they also hold firm when their first answer is wrong and the user's reason is right?
-- Would Sonnet and Opus 4.6 still switch so readily at higher effort, when they think before answering?
+A separate, prospective study could compare four second turns: a neutral request to reconsider, bare disagreement, a plausible but non-decisive reason, and a verified decisive correction or newly relevant constraint. It would use tasks where the quality of updating can be judged, and could vary effort as well. It would need its own locked plan and its own results folder. None of these conditions is added to the completed studies.
 
 ## When it ran and what it cost
 
@@ -185,5 +245,5 @@ Costs are at Message Batches prices, from the token counts recorded with every a
 ## Data and code
 
 - Every answer is saved: `round1.csv` and `round2.csv` in each study's `runs*/full/` folder, next to its report and chart.
-- `pushback.py` ran the studies and wrote the reports. `summarize.py` rebuilds this page's numbers and chart from the saved answers, with no API calls.
+- `pushback.py` ran the studies and wrote the reports. `summarize.py` rebuilds this page's numbers and chart from the saved answers, with no API calls. The README explains how to rebuild the analyses, and how to start a new run without touching these results.
 - The plans, the question banks and Astra's screens are in the repo root and `reviews/`. The Git history shows when each was committed.

@@ -55,7 +55,14 @@ class _Batches:
                   request_counts=_O(processing=len(b["requests"]), succeeded=0, errored=0))
 
     def results(self, batch_id):
-        for r in _BATCHES[batch_id]["requests"]:
+        requests = _BATCHES[batch_id]["requests"]
+        if _MODE == "missing_result":
+            requests = requests[1:]
+        elif _MODE == "duplicate_result":
+            requests = requests + requests[:1]
+        elif _MODE == "unexpected_result":
+            yield _O(custom_id="r1-not-sent", result=_O(type="errored"))
+        for r in requests:
             p = r["params"]
             assert re.fullmatch(r"[a-zA-Z0-9_-]{1,64}", r["custom_id"]), r["custom_id"]
             assert "temperature" not in p

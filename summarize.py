@@ -6,7 +6,8 @@ The cross-study numbers and chart in RESULTS.md, rebuilt from the saved results 
 
 Change rates, the primary comparisons and the sensitivity analyses use pushback.py's own functions and
 seeds, so they match each study's report. The reason gap, output tokens and first-answer lean are extra,
-exploratory numbers for the write-up that no plan specified.
+exploratory numbers for the write-up that no plan specified. The supplementary analyses (strictly stable
+first answers and paired branches) were added on 2026-09-24, after all results were known.
 """
 
 import json
@@ -67,6 +68,63 @@ def share_a(r1, model_id):
     """Share of clean first answers that were the letter A (the options swap places in half the runs)."""
     ok = [r for r in r1 if r["model"] == model_id and r["status"] == "ok"]
     return sum(r["letter"].upper() == "A" for r in ok) / len(ok)
+
+
+def events(rates, model_id, condition):
+    """(answers changed, clean answers) behind a change rate."""
+    counts = rates[(model_id, condition)]["counts"].values()
+    return sum(c[0] for c in counts), sum(c[1] for c in counts)
+
+
+# Supplementary analyses, post hoc: added on 2026-09-24 after all results were known. No plan specified them.
+
+def stable_items(study, r1, model_id):
+    """Questions where the model gave every expected first answer (both framings, every sample) cleanly, and all
+    of them picked the same option. Options are compared as a/b, not as letters, since the letters swap with the
+    option order. Uses round 1 only."""
+    expected = len(pb.FRAMINGS) * study["samples"]
+    by_item = {}
+    for r in r1:
+        if r["model"] == model_id:
+            by_item.setdefault(r["item"], []).append(r)
+    return {i for i, rows in by_item.items() if len(rows) == expected
+            and all(r["status"] == "ok" for r in rows) and len({r["choice"] for r in rows}) == 1}
+
+
+def switches(r2, model_id, items, condition, framing=None):
+    """(answers changed, clean answers, branches sent) after pushback, on the given questions."""
+    rows = [r for r in r2 if r["model"] == model_id and r["item"] in items and r["condition"] == condition
+            and (framing is None or r["framing"] == framing)]
+    clean = [r for r in rows if r["status"] == "ok"]
+    return sum(int(r["flipped"]) for r in clean), len(clean), len(rows)
+
+
+def paired_branches(r2, model_id):
+    """The two round 2 branches of each saved first answer, matched on item, framing, sample and order.
+    Returns {item: [(no_reason_changed, with_reason_changed), ...]} over pairs where both branches are clean,
+    and how many first answers were left out because a branch wasn't clean."""
+    branches = {}
+    for r in r2:
+        if r["model"] == model_id:
+            branches.setdefault((r["item"], r["framing"], r["sample"], r["order"]), {})[r["condition"]] = r
+    pairs, left_out = {}, 0
+    for (item, *_), b in branches.items():
+        if set(b) == set(pb.CONDITIONS) and all(r["status"] == "ok" for r in b.values()):
+            pairs.setdefault(item, []).append((int(b["no_reason"]["flipped"]), int(b["with_reason"]["flipped"])))
+        else:
+            left_out += 1
+    return pairs, left_out
+
+
+def paired_net(pairs, reps, rng):
+    """Reason-only minus no-reason-only changes, as a share of pairs, with a 95% interval from resampling whole
+    questions, so each question's pairs stay together."""
+    def net(items):
+        flat = [p for i in items for p in pairs[i]]
+        return sum(w - n for n, w in flat) / len(flat)
+    items = list(pairs)
+    lo, hi = pb.interval(net([rng.choice(items) for _ in items]) for _ in range(reps))
+    return net(items), lo, hi
 
 
 def when(runs):
@@ -144,14 +202,15 @@ def main():
                 where[(bank, m["id"])] = studies[name]
     banks = [bank for bank, _, _ in BANKS]
 
-    print("## Change rates (% of answers changed: no reason / with a reason)\n")
+    print("## Change rates, with answers changed / clean answers: no reason / with a reason\n")
     print("| Model | " + " | ".join(banks) + " |")
     print("|---|" + "---|" * len(banks))
     for mid in ORDER:
         cells = []
         for bank in banks:
             rates = where[(bank, mid)]["rates"]
-            cells.append(f"{rates[(mid, 'no_reason')]['rate'] * 100:.1f} / {rates[(mid, 'with_reason')]['rate'] * 100:.1f}")
+            cells.append(" / ".join(f"{pb.pct(rates[(mid, c)]['rate'])} ({'/'.join(map(str, events(rates, mid, c)))})"
+                                    for c in pb.CONDITIONS))
         print(f"| {labels[mid]} | " + " | ".join(cells) + " |")
 
     print("\n## Primary comparison and sensitivity analysis (no reason given)\n")
@@ -161,8 +220,9 @@ def main():
         if not pb.has_primary(s["study"]):
             continue
         newest, oldest, d, lo, hi, v = pb.primary(s["study"], s["rates"])
-        rn, ro = (s["rates"][(m["id"], "no_reason")]["rate"] for m in (newest, oldest))
-        print(f"| {name} | all 60 | {pb.pct(rn)} | {pb.pct(ro)} | {pb.pts(d)} | {ci(lo, hi)} | {v} |")
+        rn, ro = (f"{pb.pct(s['rates'][(m['id'], 'no_reason')]['rate'])} "
+                  f"({'/'.join(map(str, events(s['rates'], m['id'], 'no_reason')))})" for m in (newest, oldest))
+        print(f"| {name} | all 60 | {rn} | {ro} | {pb.pts(d)} | {ci(lo, hi)} | {v} |")
         n, sn, so, sd, slo, shi = sensitivity(s)
         sv = pb.verdict(slo, shi, s["study"]["margin_points"] / 100)
         print(f"| {name}, sensitivity | {n} | {pb.pct(sn)} | {pb.pct(so)} | {pb.pts(sd)} | {ci(slo, shi)} | {sv} |")
@@ -188,6 +248,45 @@ def main():
             toks = [median_tokens(s["r1"], mid)] + [median_tokens(s["r2"], mid, c) for c in pb.CONDITIONS]
             print(f"| {labels[mid]} | {bank.split(' (')[0]} | " + " | ".join(f"{t:g}" for t in toks)
                   + f" | {pb.pct(share_a(s['r1'], mid))} |")
+
+    print("\n## Supplementary, post hoc: questions where every first answer was clean and the same (no reason)\n")
+    print("| Model | " + " | ".join(banks) + " |")
+    print("|---|" + "---|" * len(banks))
+    for mid in ORDER:
+        cells = []
+        for bank in banks:
+            s = where[(bank, mid)]
+            items = stable_items(s["study"], s["r1"], mid)
+            k, n, sent = switches(s["r2"], mid, items, "no_reason")
+            cells.append(f"{k}/{n} = {pb.pct(k / n if n else float('nan'))}, {len(items)} questions"
+                         + (f", {sent - n} in prose left out" if sent > n else ""))
+        print(f"| {labels[mid]} | " + " | ".join(cells) + " |")
+
+    print("\n## Supplementary, post hoc: Opus 4.6's label effect on those questions (no reason)\n")
+    print("| Bank | Questions | Unlabeled | Labeled |")
+    print("|---|---|---|---|")
+    for bank in banks:
+        s = where[(bank, "claude-opus-4-6")]
+        items = stable_items(s["study"], s["r1"], "claude-opus-4-6")
+        cells = []
+        for framing in pb.FRAMINGS:
+            k, n, _ = switches(s["r2"], "claude-opus-4-6", items, "no_reason", framing)
+            cells.append(f"{k}/{n} = {pb.pct(k / n)}")
+        print(f"| {bank.split(' (')[0]} | {len(items)} | " + " | ".join(cells) + " |")
+
+    print("\n## Supplementary, post hoc: the two branches of each first answer, both clean\n")
+    print("| Model | Bank | Pairs | Left out | Both changed | Neither | Reason only | No reason only | "
+          "Net (pts) | 95% interval |")
+    print("|---|---|---|---|---|---|---|---|---|---|")
+    for mid in ORDER:
+        for bank in banks:
+            s = where[(bank, mid)]
+            pairs, left_out = paired_branches(s["r2"], mid)
+            flat = [p for ps in pairs.values() for p in ps]
+            cell = {key: sum(p == key for p in flat) for key in ((1, 1), (0, 0), (0, 1), (1, 0))}
+            d, lo, hi = paired_net(pairs, s["study"]["bootstrap_reps"], random.Random(s["study"]["seed"] + 3))
+            print(f"| {labels[mid]} | {bank.split(' (')[0]} | {len(flat)} | {left_out} | {cell[(1, 1)]} | "
+                  f"{cell[(0, 0)]} | {cell[(0, 1)]} | {cell[(1, 0)]} | {d * 100:+.2f} | {ci(lo, hi)} |")
 
     print("\n## When each study ran (UTC) and what it cost\n")
     print("| Study | First batch sent | Last batch back | Cost (pilot and full run) |")

@@ -145,6 +145,92 @@ def test_summarize():
     print("PASS summary: matches the reports' primary and sensitivity rows, and results.svg is up to date")
 
 
+def test_result_ids_reconciled():
+    for mode in ("missing_result", "duplicate_result", "unexpected_result"):
+        work, proc = run_study(mode)
+        assert proc.returncode != 0, f"{mode}: should stop"
+        assert "don't match" in (work / ".notify/title.txt").read_text(), mode
+        state = json.loads((work / "runs/pilot/state.json").read_text())
+        assert state["round1"]["batch_id"] and "collected_at" not in state["round1"], (mode, state)
+        assert not (work / "runs/pilot/round1.csv").exists(), f"{mode}: nothing should be saved"
+    print("PASS result IDs: a missing, repeated or unexpected result stops collection and keeps the batch to re-collect")
+
+
+def test_saved_results_complete():
+    sys.path.insert(0, str(REPO))
+    import pushback as pb
+    for p in sorted(REPO.glob("study*.json")):
+        study = json.loads(p.read_text())
+        qs = json.loads((REPO / study.get("questions_file", "questions.json")).read_text())
+        runs = REPO / study.get("runs_dir", "runs")
+        for stage in sorted(d.name for d in runs.iterdir() if d.is_dir()):
+            items = pb.stage_items(study, qs, stage)
+            r1, r2 = (pb.read_csv(runs / stage / f) for f in ("round1.csv", "round2.csv"))
+            level = json.loads((runs / stage / "state.json").read_text())["level"]
+            for rows, jobs in ((r1, pb.round1_jobs(study, qs, items)), (r2, pb.round2_jobs(study, qs, items, level, r1))):
+                ids = [r["custom_id"] for r in rows]
+                assert sorted(ids) == sorted(j["custom_id"] for j in jobs), f"{runs.name}/{stage}"
+    print("PASS saved results: every published CSV has each expected request exactly once")
+
+
+def test_fresh_run_isolated():
+    work = Path(tempfile.mkdtemp())
+    for p in [REPO / "pushback.py"] + list(REPO.glob("study*.json")) + list(REPO.glob("questions*.json")):
+        shutil.copy(p, work / p.name)
+    for d in REPO.glob("runs*"):
+        shutil.copytree(d, work / d.name)
+    published = {p: p.read_bytes() for p in work.glob("runs*/**/*") if p.is_file()}
+    env = dict(os.environ, GITHUB_ACTIONS="false", PUSHBACK_STUDY="study.json")
+    env.pop("ANTHROPIC_API_KEY", None)
+    proc = subprocess.run([sys.executable, "pushback.py", "run"], cwd=work, env=env, capture_output=True, text=True)
+    assert proc.returncode == 0 and "finished" in proc.stdout, proc.stdout + proc.stderr
+    study = json.loads((work / "study.json").read_text())
+    study.update(name="rerun", runs_dir="runs-rerun")
+    (work / "study-rerun.json").write_text(json.dumps(study))
+    proc = run_in(work, "normal", "study-rerun.json")
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert json.loads((work / "runs-rerun/progress.json").read_text())["status"] == "done"
+    assert {p: p.read_bytes() for p in work.glob("runs*/**/*") if p.is_file() and "runs-rerun" not in p.parts} \
+        == published, "a new run must not touch the published results"
+    study["runs_dir"] = "runs/rerun"
+    (work / "study-nested.json").write_text(json.dumps(study))
+    proc = run_in(work, "normal", "study-nested.json")
+    assert proc.returncode != 0 and "folder name at the repo root" in proc.stderr, proc.stderr
+    print("PASS fresh run: finished studies need no key, a new runs_dir starts clean, published results untouched")
+
+
+def test_supplementary_analyses():
+    sys.path.insert(0, str(REPO))
+    import summarize as sm
+    def r1(item, order, letter, status="ok", framing="unlabeled", sample=0):
+        choice = {"A": "a", "B": "b"}[letter] if order == "AB" else {"A": "b", "B": "a"}[letter]
+        return {"model": "m", "item": item, "framing": framing, "sample": str(sample), "order": order,
+                "status": status, "letter": letter if status == "ok" else "", "choice": choice if status == "ok" else ""}
+    def eight(item, letter_ab, letter_ba, bad=None):
+        rows = [r1(item, "AB" if s % 2 == 0 else "BA", letter_ab if s % 2 == 0 else letter_ba, framing=f, sample=s)
+                for f in ("unlabeled", "labeled") for s in range(4)]
+        if bad is not None:
+            rows[bad]["status"] = "unreadable"
+        return rows
+    rows = (eight("same-option", "A", "B")      # letters differ, but every answer picks option a: eligible
+            + eight("same-letter", "A", "A")    # same letter, but the options swapped places: not eligible
+            + eight("one-in-prose", "A", "B", bad=3) + eight("only-seven", "A", "B")[:7])
+    assert sm.stable_items({"samples": 4}, rows, "m") == {"same-option"}
+    def r2(item, sample, cond, flipped, status="ok"):
+        return {"model": "m", "item": item, "framing": "unlabeled", "sample": str(sample), "order": "AB",
+                "condition": cond, "status": status, "flipped": str(flipped) if status == "ok" else ""}
+    rows = [r2("x", 0, "no_reason", 0), r2("x", 0, "with_reason", 1),
+            r2("x", 1, "no_reason", 1), r2("x", 1, "with_reason", 1),
+            r2("y", 0, "no_reason", 1), r2("y", 0, "with_reason", 0),
+            r2("y", 1, "no_reason", 0), r2("y", 1, "with_reason", 0, status="unreadable")]
+    pairs, left_out = sm.paired_branches(rows, "m")
+    assert pairs == {"x": [(0, 1), (1, 1)], "y": [(1, 0)]} and left_out == 1, (pairs, left_out)
+    net, lo, hi = sm.paired_net(pairs, 200, __import__("random").Random(1))
+    assert net == 0 and lo <= net <= hi, (net, lo, hi)
+    assert sm.switches(rows, "m", {"y"}, "with_reason") == (0, 1, 2)
+    print("PASS supplementary analyses: all eight first answers required, options not letters, unmatched pairs left out")
+
+
 if __name__ == "__main__":
     test_normal()
     test_floor()
@@ -155,4 +241,8 @@ if __name__ == "__main__":
     test_replication()
     test_study_files_load()
     test_summarize()
+    test_result_ids_reconciled()
+    test_saved_results_complete()
+    test_fresh_run_isolated()
+    test_supplementary_analyses()
     print("All tests passed.")
