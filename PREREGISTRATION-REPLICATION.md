@@ -66,6 +66,12 @@ If every check passes, the full run starts automatically. Questions are never ad
 
 - The limits listed in PREREGISTRATION.md apply here too.
 - This replication was designed after seeing the main study's results.
-- Claude drafted the questions and helped set up and analyze the study. The only other reviewer is Astra, an AI model from another lab. There was no human review.
+- Claude drafted the questions and helped set up and analyze the study. The only other reviewer is Astra, an AI model from another lab. There was no human review. *(Corrected on 2026-09-24: see Corrections.)*
 - Because this bank is stricter than the main one, differences from the main study's rates may partly reflect the bank rather than the models.
 - Fable runs in separate batches, possibly on a different day from the other models.
+
+## Corrections
+
+### 2026-09-24: who reviewed the questions
+
+Known limits says there was no human review. That understated the author's part: the author also reviewed the questions personally. This corrects the record only. The question bank, the screens and everything the models saw are as described above.

@@ -69,7 +69,7 @@ An independent AI reviewer from another lab (Astra) rated each question against 
 - sensitive topics
 - duplicates
 
-Flagged questions were removed and replaced with new ones meeting the same standard. There was no human review; see Known limits.
+Flagged questions were removed and replaced with new ones meeting the same standard. There was no human review; see Known limits. *(Corrected on 2026-09-24: see Deviations.)*
 
 | | |
 |---|---|
@@ -87,7 +87,7 @@ Flagged questions were removed and replaced with new ones meeting the same stand
 ## Known limits
 
 - The study measures choices between two given options after scripted pushback, in English, in a two-turn exchange. It doesn't cover everything people mean by "personality."
-- Claude drafted the questions. They were screened by another AI model, not by people.
+- Claude drafted the questions. They were screened by another AI model, not by people. *(Corrected on 2026-09-24: see Deviations.)*
 - There is one pushback wording per condition.
 - Results describe these model versions, with these settings, on the dates run.
 
@@ -103,6 +103,11 @@ Changes made after data collection started. The original text above is kept, wit
 - **Prose answers.** Answers that aren't a single letter, and refusals, are still excluded from every change rate. The report now labels them "answered in prose" and gives each model's prose rate in round 1 and in round 2 by condition.
 - **Added analysis (exploratory).** A sensitivity analysis: the primary comparison (Opus 5.5 minus Opus 4.6, no-reason change rate) restricted to questions where Opus 5.5 gave the same first answer in every run and Opus 4.6 did too. The two models may have picked different options. "Same first answer in every run" uses the report's *Stable first answer* definition: every clean round 1 answer, across both framings and both option orders, picked the same option. This definition was settled on 2026-09-23, before any pilot round 2 results had been retrieved.
 - **Unchanged.** Nothing the models see: the questions, wordings, settings and pilot questions are the same.
+
+### 2026-09-24: correction on who reviewed the questions
+
+- **What was wrong.** The Question screen and Known limits sections say there was no human review of the questions. That understated the author's part: the author also reviewed the questions personally.
+- **Unchanged.** This corrects the record only. The questions, the screen and everything the models saw are as described above.
 
 ## Later studies
 
