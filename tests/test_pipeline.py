@@ -3,6 +3,7 @@ change rates. No API key, no network, no cost.   Usage: python tests/test_pipeli
 import csv
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -13,16 +14,21 @@ REPO = Path(__file__).resolve().parent.parent
 FAKE = Path(__file__).resolve().parent / "fake_anthropic"
 
 
-def run_study(mode, study="study.json"):
+def copy_repo():
     work = Path(tempfile.mkdtemp())
     for f in ["pushback.py", "questions.json", "questions-replication.json"] + [p.name for p in REPO.glob("study*.json")]:
         shutil.copy(REPO / f, work / f)
+    return work
+
+
+def run_study(mode, study="study.json"):
+    work = copy_repo()
     return work, run_in(work, mode, study)
 
 
-def run_in(work, mode, study="study.json"):
+def run_in(work, mode, study="study.json", **extra_env):
     env = dict(os.environ, PYTHONPATH=str(FAKE), ANTHROPIC_API_KEY="fake", PUSHBACK_POLL_SECONDS="0",
-               FAKE_MODE=mode, GITHUB_ACTIONS="false", PUSHBACK_STUDY=study)
+               FAKE_MODE=mode, GITHUB_ACTIONS="false", PUSHBACK_STUDY=study, **extra_env)
     return subprocess.run([sys.executable, "pushback.py", "run"], cwd=work, env=env, capture_output=True, text=True)
 
 
@@ -34,6 +40,7 @@ def test_normal():
     report = (work / "runs/full/report.md").read_text()
     assert "(primary)" in report and "difference detected" in report, report
     assert (work / "runs/full/chart.svg").read_text().startswith("<svg")
+    assert re.search(r"\| \d+/\d+ \(\d+\.\d%\); 95% interval \d+\.\d% to \d+\.\d% \|", report), report
     assert "results" in (work / ".notify/title.txt").read_text()
     print("PASS normal run: pilot passed, full run finished, planted difference detected")
 
@@ -145,6 +152,110 @@ def test_summarize():
     print("PASS summary: matches the reports' primary and sensitivity rows, and results.svg is up to date")
 
 
+def test_result_ids_reconciled():
+    for mode in ("missing_result", "duplicate_result", "unexpected_result"):
+        work = copy_repo()
+        store = work / "batches"
+        store.mkdir()
+        proc = run_in(work, mode, FAKE_STORE=str(store))
+        assert proc.returncode != 0, f"{mode}: should stop"
+        assert "could not be reconciled" in (work / ".notify/title.txt").read_text(), mode
+        assert mode.split("_")[0] in (work / ".notify/body.md").read_text(), mode
+        state = json.loads((work / "runs/pilot/state.json").read_text())
+        batch = state["round1"]["batch_id"]
+        assert batch and "collected_at" not in state["round1"], (mode, state)
+        assert not (work / "runs/pilot/round1.csv").exists(), f"{mode}: nothing should be saved"
+        proc = run_in(work, "normal", FAKE_STORE=str(store))  # the next run, with the full results available
+        assert proc.returncode == 0, proc.stdout + proc.stderr
+        assert json.loads((work / "runs/pilot/state.json").read_text())["round1"]["batch_id"] == batch
+        ids = {r["custom_id"] for r in csv.DictReader(open(work / "runs/pilot/round1.csv", newline=""))}
+        same = [f for f in store.iterdir() if {r["custom_id"] for r in json.loads(f.read_text())} == ids]
+        assert [f.stem for f in same] == [batch], "the same batch must be collected again, not resubmitted"
+    print("PASS result IDs: a missing, repeated or unexpected result stops collection; the next run re-collects "
+          "the same batch")
+
+
+def test_saved_results_complete():
+    sys.path.insert(0, str(REPO))
+    import pushback as pb
+    for p in sorted(REPO.glob("study*.json")):
+        study = json.loads(p.read_text())
+        qs = json.loads((REPO / study.get("questions_file", "questions.json")).read_text())
+        runs = REPO / study.get("runs_dir", "runs")
+        for stage in sorted(d.name for d in runs.iterdir() if d.is_dir()):
+            items = pb.stage_items(study, qs, stage)
+            r1, r2 = (pb.read_csv(runs / stage / f) for f in ("round1.csv", "round2.csv"))
+            level = json.loads((runs / stage / "state.json").read_text())["level"]
+            for rows, jobs in ((r1, pb.round1_jobs(study, qs, items)), (r2, pb.round2_jobs(study, qs, items, level, r1))):
+                ids = [r["custom_id"] for r in rows]
+                assert sorted(ids) == sorted(j["custom_id"] for j in jobs), f"{runs.name}/{stage}"
+    print("PASS saved results: every published CSV has each expected request exactly once")
+
+
+def test_fresh_run_isolated():
+    work = Path(tempfile.mkdtemp())
+    for p in [REPO / "pushback.py"] + list(REPO.glob("study*.json")) + list(REPO.glob("questions*.json")):
+        shutil.copy(p, work / p.name)
+    for d in REPO.glob("runs*"):
+        shutil.copytree(d, work / d.name)
+    published = {p: p.read_bytes() for p in work.glob("runs*/**/*") if p.is_file()}
+    env = dict(os.environ, GITHUB_ACTIONS="false", PUSHBACK_STUDY="study.json")
+    env.pop("ANTHROPIC_API_KEY", None)
+    proc = subprocess.run([sys.executable, "pushback.py", "run"], cwd=work, env=env, capture_output=True, text=True)
+    assert proc.returncode == 0 and "finished" in proc.stdout, proc.stdout + proc.stderr
+    snippet = (REPO / "SETUP.md").read_text().split("python - <<'PY'\n")[1].split("\nPY\n")[0]
+    for _ in range(2):  # the second time it must refuse, since both names are now in use
+        proc = subprocess.run([sys.executable, "-c", snippet], cwd=work, capture_output=True, text=True)
+    assert proc.returncode != 0 and "unused" in proc.stderr, proc.stderr
+    proc = subprocess.run([sys.executable, "pushback.py", "preview"], cwd=work, capture_output=True, text=True,
+                          env=dict(env, PUSHBACK_STUDY="study-local.json"))
+    assert proc.returncode == 0 and "Next stage: pilot" in proc.stdout, proc.stdout + proc.stderr
+    proc = run_in(work, "normal", "study-local.json")
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert json.loads((work / "runs-local/progress.json").read_text())["status"] == "done"
+    assert {p: p.read_bytes() for p in work.glob("runs*/**/*") if p.is_file() and "runs-local" not in p.parts} \
+        == published, "a new run must not touch the published results"
+    study = json.loads((work / "study-local.json").read_text())
+    study["runs_dir"] = "runs/rerun"
+    (work / "study-nested.json").write_text(json.dumps(study))
+    proc = run_in(work, "normal", "study-nested.json")
+    assert proc.returncode != 0 and "folder name at the repo root" in proc.stderr, proc.stderr
+    print("PASS fresh run: finished studies need no key; SETUP.md's separate run starts clean and leaves the "
+          "published results untouched")
+
+
+def test_supplementary_analyses():
+    sys.path.insert(0, str(REPO))
+    import summarize as sm
+    def r1(item, order, letter, status="ok", framing="unlabeled", sample=0):
+        choice = {"A": "a", "B": "b"}[letter] if order == "AB" else {"A": "b", "B": "a"}[letter]
+        return {"model": "m", "item": item, "framing": framing, "sample": str(sample), "order": order,
+                "status": status, "letter": letter if status == "ok" else "", "choice": choice if status == "ok" else ""}
+    def eight(item, letter_ab, letter_ba, bad=None):
+        rows = [r1(item, "AB" if s % 2 == 0 else "BA", letter_ab if s % 2 == 0 else letter_ba, framing=f, sample=s)
+                for f in ("unlabeled", "labeled") for s in range(4)]
+        if bad is not None:
+            rows[bad]["status"] = "unreadable"
+        return rows
+    rows = (eight("same-option", "A", "B")      # letters differ, but every answer picks option a: eligible
+            + eight("same-letter", "A", "A")    # same letter, but the options swapped places: not eligible
+            + eight("one-in-prose", "A", "B", bad=3) + eight("only-seven", "A", "B")[:7])
+    assert sm.stable_items({"samples": 4}, rows, "m") == {"same-option"}
+    def r2(item, sample, cond, flipped, status="ok"):
+        return {"model": "m", "item": item, "framing": "unlabeled", "sample": str(sample), "order": "AB",
+                "condition": cond, "status": status, "flipped": str(flipped) if status == "ok" else ""}
+    rows = [r2("x", 0, "no_reason", 0), r2("x", 0, "with_reason", 1),
+            r2("x", 1, "no_reason", 1), r2("x", 1, "with_reason", 1),
+            r2("y", 0, "no_reason", 1), r2("y", 0, "with_reason", 0),
+            r2("y", 1, "no_reason", 0), r2("y", 1, "with_reason", 0, status="unreadable")]
+    pairs, left_out = sm.paired_branches(rows, "m")
+    assert pairs == {"x": [(0, 1), (1, 1)], "y": [(1, 0)]} and left_out == 1, (pairs, left_out)
+    net, lo, hi = sm.paired_net(pairs, 200, __import__("random").Random(1))
+    assert net == 0 and lo <= net <= hi, (net, lo, hi)
+    assert sm.switches(rows, "m", {"y"}, "with_reason") == (0, 1, 2)
+    print("PASS supplementary analyses: all eight first answers required, options not letters, unmatched pairs left out")
+
+
 if __name__ == "__main__":
     test_normal()
     test_floor()
@@ -155,4 +266,8 @@ if __name__ == "__main__":
     test_replication()
     test_study_files_load()
     test_summarize()
+    test_result_ids_reconciled()
+    test_saved_results_complete()
+    test_fresh_run_isolated()
+    test_supplementary_analyses()
     print("All tests passed.")

@@ -66,6 +66,9 @@ def load():
     missing = [i for i in study["pilot_items"] if i not in ids]
     if missing:
         sys.exit(f"{STUDY_FILE.name} pilot_items lists questions that don't exist: {missing}")
+    runs_dir = study.get("runs_dir", "runs")
+    if Path(runs_dir).name != runs_dir or runs_dir.startswith("."):
+        sys.exit(f"{STUDY_FILE.name}: runs_dir must be a folder name at the repo root, such as runs-rerun.")
     if study["starting_pushback_level"] not in qs["pushback"]:
         sys.exit(f"{STUDY_FILE.name} starting_pushback_level must be one of {list(qs['pushback'])}.")
     if len({m["id"] for m in study["models"]}) != len(study["models"]):
@@ -313,12 +316,18 @@ def batch_ended(client, batch_id):
 
 
 def collect(client, study, batch_id, jobs):
+    """One row per request. Stops, saving nothing, unless the batch returned each request exactly once."""
     by_id = {j["custom_id"]: j for j in jobs}
-    rows = []
+    rows, seen, duplicates, unexpected = [], set(), set(), set()
     for entry in client.messages.batches.results(batch_id):
         job = by_id.get(entry.custom_id)
         if job is None:
+            unexpected.add(entry.custom_id)
             continue
+        if entry.custom_id in seen:
+            duplicates.add(entry.custom_id)
+            continue
+        seen.add(entry.custom_id)
         model = job["model"]
         row = {"custom_id": entry.custom_id, "model": model["id"], "item": job["item"]["id"],
                "framing": job["framing"], "sample": job["sample"], "order": job["order"],
@@ -353,9 +362,21 @@ def collect(client, study, batch_id, jobs):
             if "condition" in job:
                 row["flipped"] = int(row["choice"] != job["initial_choice"])
         rows.append(row)
-    missing = len(set(by_id) - {r["custom_id"] for r in rows})
-    if missing:
-        print(f"  note: {missing} requests had no result and are left out")
+    problems = [(what, sorted(ids)) for what, ids in (("missing", set(by_id) - seen), ("duplicate", duplicates),
+                                                       ("unexpected", unexpected)) if ids]
+    if problems:
+        # Nothing from this batch is saved and its ID stays in state.json, so the next run collects the same
+        # batch again rather than submitting a new one.
+        print(f"Batch {batch_id}: {len(by_id)} requests submitted.")
+        for what, ids in problems:
+            print(f"  {len(ids)} {what} result IDs: {', '.join(ids)}")
+        detail = "\n".join(f"- {len(ids)} {what}: {', '.join(ids[:10])}{', …' if len(ids) > 10 else ''}"
+                           for what, ids in problems)
+        stop_and_notify("batch results could not be reconciled",
+                        "Batch results could not be reconciled with the submitted requests. The saved batch ID has "
+                        "been retained. Review the missing, duplicate, or unexpected result IDs before continuing."
+                        f"\n\nBatch `{batch_id}`, {len(by_id)} requests submitted. Result IDs:\n{detail}\n\n"
+                        "The run log lists every ID.")
     return sorted(rows, key=lambda r: r["custom_id"])
 
 
@@ -580,6 +601,11 @@ def boot_diff(c1, c2, reps, rng):
     return point, lo, hi
 
 
+def events(r):
+    """(answers changed, clean answers) behind one entry of model_rates."""
+    return sum(c[0] for c in r["counts"].values()), r["n"]
+
+
 def verdict(lo, hi, margin):
     if lo != lo:
         return "not enough data"
@@ -785,13 +811,20 @@ def write_report(study, stage, level):
     L.append("")
 
     L += ["## How often each model changed its answer", "",
-          "Both framings pooled. 95% intervals from resampling questions (item-level bootstrap).", "",
+          "Both framings pooled. Answers changed out of clean answers, with 95% intervals from resampling questions "
+          "(item-level bootstrap).", "",
           "| Model | No reason given | With a reason (control) |", "|---|---|---|"]
     for m in models:
-        cells = [f"{pct(rates[(m['id'], c)]['rate'])} ({pct(rates[(m['id'], c)]['lo'])} to "
-                 f"{pct(rates[(m['id'], c)]['hi'])}), n={rates[(m['id'], c)]['n']}" for c in CONDITIONS]
+        cells = []
+        for c in CONDITIONS:
+            r = rates[(m["id"], c)]
+            changed, n = events(r)
+            cells.append(f"{changed}/{n} ({pct(r['rate'])}); 95% interval {pct(r['lo'])} to {pct(r['hi'])}")
         L.append(f"| {m['label']} | {cells[0]} | {cells[1]} |")
-    L.append("")
+    L += ["", "Interval note: questions, rather than individual responses, are resampled. When every observed "
+          "switching outcome is zero, this bootstrap produces a zero-width interval. That reflects the observed "
+          "sample and does not prove a zero underlying switching probability. Read boundary cases together with "
+          "event counts, eligible denominators, and the study's limits.", ""]
 
     rng = random.Random(study["seed"] + 2)
     if "comparisons" in study:  # a later study: named comparisons, with a primary one only if its plan fixes one

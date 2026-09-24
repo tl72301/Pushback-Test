@@ -1,6 +1,7 @@
 """A fake Anthropic SDK for offline tests. It imitates the Batch API and plants known
 change rates per model, so the test can check the pipeline recovers them."""
 import hashlib
+import json
 import os
 import random
 import re
@@ -9,6 +10,7 @@ __version__ = "fake"
 _rng = random.Random(5)
 _BATCHES = {}
 _MODE = os.environ.get("FAKE_MODE", "normal")
+_STORE = os.environ.get("FAKE_STORE")  # a folder that keeps batches, so a later run can collect them
 _CHANGE = {"claude-opus-4-6": .55, "claude-opus-4-8": .45, "claude-opus-5": .35, "claude-opus-5-5": .15,
            # follow-up models, planted near the floor so the fixed-wording rule gets exercised
            "claude-sonnet-4-6": .04, "claude-sonnet-5": .02, "claude-fable-5": 0.0, "claude-fable-5-1": 0.0}
@@ -44,18 +46,34 @@ def _answer(params):
 
 class _Batches:
     def create(self, requests):
-        batch_id = f"msgbatch_fake_{len(_BATCHES)}"
+        batch_id = f"msgbatch_fake_{len(os.listdir(_STORE)) if _STORE else len(_BATCHES)}"
         _BATCHES[batch_id] = {"requests": requests, "polls": 0}
+        if _STORE:
+            with open(os.path.join(_STORE, batch_id + ".json"), "w") as f:
+                json.dump(requests, f)
         return _O(id=batch_id)
 
+    def _get(self, batch_id):
+        if batch_id not in _BATCHES and _STORE:
+            with open(os.path.join(_STORE, batch_id + ".json")) as f:
+                _BATCHES[batch_id] = {"requests": json.load(f), "polls": 0}
+        return _BATCHES[batch_id]
+
     def retrieve(self, batch_id):
-        b = _BATCHES[batch_id]
+        b = self._get(batch_id)
         b["polls"] += 1
         return _O(processing_status="ended" if b["polls"] > 1 else "in_progress",
                   request_counts=_O(processing=len(b["requests"]), succeeded=0, errored=0))
 
     def results(self, batch_id):
-        for r in _BATCHES[batch_id]["requests"]:
+        requests = self._get(batch_id)["requests"]
+        if _MODE == "missing_result":
+            requests = requests[1:]
+        elif _MODE == "duplicate_result":
+            requests = requests + requests[:1]
+        elif _MODE == "unexpected_result":
+            yield _O(custom_id="r1-not-sent", result=_O(type="errored"))
+        for r in requests:
             p = r["params"]
             assert re.fullmatch(r"[a-zA-Z0-9_-]{1,64}", r["custom_id"]), r["custom_id"]
             assert "temperature" not in p

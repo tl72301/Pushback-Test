@@ -1,52 +1,52 @@
 # Pushback test
 
-**How often does Claude change its answer when you push back?**
+**How often does Claude change its answer when a user disagrees?**
 
-This repo measures how four Claude Opus versions (4.6, 4.8, 5 and 5.5) respond when a user disagrees with them on a judgment question that has no right answer:
+> Designed and directed by Thomas Liberman, with AI assistance for implementation, question drafting, screening, and analysis.
 
-1. The model picks between two options, for example two names for a coffee shop.
-2. The user says the other option is better, either with no reason or with a short reason.
-3. The model answers again, and code checks whether it changed its answer.
+This project tests how eight Claude models respond to disagreement on two banks of judgment questions. Across four studies, each model chose between two options, then answered again after the user favored the other option, either without a reason or with a short reason.
 
-The main number is how often each model changes its answer when given **no reason**. The with-reason version is the control. A model that switches less without a reason, but still updates when given one, is resisting empty pushback rather than just being stubborn.
+1. The model chooses A or B.
+2. The user argues for the other option, with or without a reason.
+3. Code records whether the model changes its choice.
 
-The plan, including the verdict rules and the automatic pilot checks, is in [PREREGISTRATION.md](PREREGISTRATION.md). It was committed publicly before any data was collected.
+The main measure is the rate of switching after disagreement without a reason. The with-reason condition tests whether adding a reason changes that rate. Because the questions have no single correct answer, switching is not automatically a mistake, and keeping an answer is not automatically better.
+
+I shaped the research strategy, reviewed and revised the question banks, and made the final design decisions. The [plans](PREREGISTRATION.md), [screening records](reviews/), and [contribution statement](RESULTS.md#who-did-what) document those choices and the AI assistance used to carry them out.
 
 ## Results
 
-All four studies are finished. **[RESULTS.md](RESULTS.md)** brings them together: the preregistered verdicts, every model's rates on both question banks, and the limits.
+All four studies are complete. [RESULTS.md](RESULTS.md) contains the findings, the preregistered verdicts, and the limits of the experiment.
 
-- **Main study (confirmatory):** Opus 5.5 changed its answer after pushback with no reason 0.0% of the time, against 37.7% for Opus 4.6. Verdict: difference detected.
-- **Replication on a new question bank (confirmatory):** 0.0% against 51.0%. Verdict: difference detected, so the main result replicates.
-- **The control:** Opus 5.5 almost never changed its answer when given a reason either. So it keeps its first answer under any pushback, rather than resisting empty pushback in particular.
+- **Main study, confirmatory:** Opus 5.5 switched after disagreement without a reason in 0 of 480 eligible responses (0.0%), compared with 37.7% for Opus 4.6. The preregistered verdict was "difference detected."
+- **Replication, confirmatory:** On a second question bank, the rates were again 0 of 480 (0.0%) for Opus 5.5 and 51.0% for Opus 4.6. This met the preregistered replication criterion.
+- **With a reason:** Opus 5.5 also rarely switched in this condition: 1.2% in the main study and 0.4% in the replication. Its lower switching rate was not specific to disagreement without a reason. The study does not establish that keeping its answer was the better response.
 
-Each study's automatic report, with every answer, is in its `runs*/full/` folder. The design decisions, and what AI did, are under [Who did what](RESULTS.md#who-did-what).
+The reports and saved responses are in each study's `runs*/full/` folder. The two primary comparisons are confirmatory. All other comparisons and the supplementary analyses are exploratory.
 
 ## How it runs
 
-One click on **Actions → Pushback test → Run workflow** runs the whole study on GitHub Actions through Anthropic's Message Batches API:
+The completed studies ran on GitHub Actions through Anthropic's Message Batches API. For a configured study that has not finished, the workflow runs the pilot, applies the preregistered checks, starts the full run if the checks pass, and saves the responses and reports.
 
-1. The pilot runs.
-2. The preregistered checks are applied by code.
-3. The full run starts automatically if the checks pass.
-4. The report and chart are written, and every step is committed back to this repo.
+This repository includes the completed run state. Starting the existing workflow again resumes an unfinished run or reports that the selected study is already complete. Forking the repository does not reset that state. To collect new data, follow the separate-run instructions in [SETUP.md](SETUP.md).
 
 When it finishes, or if it needs attention, the workflow opens an issue. Each run can wait up to about 5½ hours for a batch. After that it saves, stops and starts the next run for its study, which continues where it stopped, so slow batches don't need you to press anything.
 
 ## Follow-up: Sonnet and Fable
 
-An exploratory follow-up runs the same test on Sonnet 4.6, Sonnet 5, Fable 5 and Fable 5.1, with the wording fixed at the main study's "standard". Its plan is in [PREREGISTRATION-FOLLOWUP.md](PREREGISTRATION-FOLLOWUP.md). **Run workflow** runs it by default (study `follow-up`); choose `main` for the original study. Its results go to `runs-followup/`, separate from the main study's.
+The exploratory follow-up tested Sonnet 4.6, Sonnet 5, Fable 5 and Fable 5.1 on the original bank, using the main study's standard pushback wording. Its plan is in [PREREGISTRATION-FOLLOWUP.md](PREREGISTRATION-FOLLOWUP.md) and its results are in [runs-followup/](runs-followup/). The workflow's `follow-up` selection refers to this completed study.
 
 ## Replication on a new question bank
 
-A replication repeats the main study's confirmatory test (Opus 5.5 vs Opus 4.6) on a new bank of 60 questions, screened by Astra in two rounds, and runs the same bank on Sonnet and Fable. Its plan is in [PREREGISTRATION-REPLICATION.md](PREREGISTRATION-REPLICATION.md). Run it with study `replication` (Opus and Sonnet) and study `replication-fable` (Fable). The two can run at the same time, and their results go to `runs-replication/` and `runs-replication-fable/`.
+The replication repeated the primary comparison, Opus 5.5 versus Opus 4.6, on a new bank of 60 questions. The bank was screened by Astra in two rounds and reviewed by me. Opus and Sonnet results are in [runs-replication/](runs-replication/); Fable results are in [runs-replication-fable/](runs-replication-fable/). [PREREGISTRATION-REPLICATION.md](PREREGISTRATION-REPLICATION.md) records the plan. The workflow's `replication` and `replication-fable` selections refer to these completed studies.
 
 ## Files
 
 | File | What it is |
 |---|---|
 | `RESULTS.md` | The write-up of all four studies |
-| `summarize.py`, `results.svg` | Rebuilds the write-up's numbers and chart from the saved results, with no API calls |
+| `SETUP.md` | Rebuilding the analysis, and starting a separate experiment |
+| `summarize.py`, `results.svg` | Recomputes the cross-study tables and chart from saved responses; does not rewrite RESULTS.md |
 | `questions.json` | The judgment questions, reasons, and pushback wordings |
 | `study.json` | Models, settings, and budgets |
 | `study-followup.json` | The same for the Sonnet and Fable follow-up |
@@ -62,10 +62,13 @@ A replication repeats the main study's confirmatory test (Opus 5.5 vs Opus 4.6) 
 | `runs-followup/` | The same for the follow-up |
 | `runs-replication/`, `runs-replication-fable/` | The same for the replication |
 
-## Reproduce it
+## Reproduce the analysis
 
-1. Fork the repo.
-2. Add an `ANTHROPIC_API_KEY` secret.
-3. Run the workflow.
+Run these commands from the repository root to rebuild the cross-study numbers and chart and check the offline pipeline. Neither command needs an API key or makes model API calls.
 
-To test for free first, run `python tests/test_pipeline.py`. It needs no API key.
+```bash
+python summarize.py
+python tests/test_pipeline.py
+```
+
+To collect a new dataset, follow [SETUP.md](SETUP.md). Use a separate configuration and output directory so the published responses and completed run state remain intact. New collection requires API access and incurs usage charges.
