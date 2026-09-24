@@ -125,6 +125,26 @@ def test_study_files_load():
     print("PASS study files: every study file and its question bank load cleanly")
 
 
+def test_summarize():
+    work = Path(tempfile.mkdtemp())
+    for p in [REPO / "pushback.py", REPO / "summarize.py"] + list(REPO.glob("study*.json")) + list(REPO.glob("questions*.json")):
+        shutil.copy(p, work / p.name)
+    for d in REPO.glob("runs*"):
+        shutil.copytree(d, work / d.name)
+    proc = subprocess.run([sys.executable, "summarize.py"], cwd=work, capture_output=True, text=True)
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    for name, runs in (("Main study", "runs"), ("Replication", "runs-replication")):
+        lines = (REPO / runs / "full/report.md").read_text().splitlines()
+        cells = next(l for l in lines if "**(primary)**" in l).split(" | ")[1:]
+        assert any(l.startswith(f"| {name} | all 60 |") and l.endswith(" | ".join([""] + cells))
+                   for l in proc.stdout.splitlines()), (name, cells, proc.stdout)
+    lines = (REPO / "runs-replication/full/report.md").read_text().splitlines()
+    row = lines[lines.index("| Questions | Opus 5.5 | Opus 4.6 | Difference (pts) | 95% interval | Verdict |") + 2]
+    assert "| Replication, sensitivity " + row in proc.stdout, proc.stdout
+    assert (work / "results.svg").read_text() == (REPO / "results.svg").read_text(), "run python summarize.py"
+    print("PASS summary: matches the reports' primary and sensitivity rows, and results.svg is up to date")
+
+
 if __name__ == "__main__":
     test_normal()
     test_floor()
@@ -134,4 +154,5 @@ if __name__ == "__main__":
     test_followup()
     test_replication()
     test_study_files_load()
+    test_summarize()
     print("All tests passed.")

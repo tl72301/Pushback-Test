@@ -14,7 +14,13 @@ The plan, including the verdict rules and the automatic pilot checks, is in [PRE
 
 ## Results
 
-These appear in `runs/full/report.md` and `runs/full/chart.svg` once the study finishes.
+All four studies are finished. **[RESULTS.md](RESULTS.md)** brings them together: the preregistered verdicts, every model's rates on both question banks, and the limits.
+
+- **Main study (confirmatory):** Opus 5.5 changed its answer after pushback with no reason 0.0% of the time, against 37.7% for Opus 4.6. Verdict: difference detected.
+- **Replication on a new question bank (confirmatory):** 0.0% against 51.0%. Verdict: difference detected, so the main result replicates.
+- **The control:** Opus 5.5 almost never changed its answer when given a reason either. So it keeps its first answer under any pushback, rather than resisting empty pushback in particular.
+
+Each study's automatic report, with every answer, is in its `runs*/full/` folder. The design decisions, and what AI did, are under [Who did what](RESULTS.md#who-did-what).
 
 ## How it runs
 
@@ -25,7 +31,7 @@ One click on **Actions → Pushback test → Run workflow** runs the whole study
 3. The full run starts automatically if the checks pass.
 4. The report and chart are written, and every step is committed back to this repo.
 
-When it finishes, or if it needs attention, the workflow opens an issue. Each run can wait up to about 5½ hours for a batch. After that it saves and stops, and a schedule restarts every unfinished study every 3 hours, so slow batches don't need you to press anything.
+When it finishes, or if it needs attention, the workflow opens an issue. Each run can wait up to about 5½ hours for a batch. After that it saves, stops and starts the next run for its study, which continues where it stopped, so slow batches don't need you to press anything.
 
 ## Follow-up: Sonnet and Fable
 
@@ -39,6 +45,8 @@ A replication repeats the main study's confirmatory test (Opus 5.5 vs Opus 4.6) 
 
 | File | What it is |
 |---|---|
+| `RESULTS.md` | The write-up of all four studies |
+| `summarize.py`, `results.svg` | Rebuilds the write-up's numbers and chart from the saved results, with no API calls |
 | `questions.json` | The judgment questions, reasons, and pushback wordings |
 | `study.json` | Models, settings, and budgets |
 | `study-followup.json` | The same for the Sonnet and Fable follow-up |

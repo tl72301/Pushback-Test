@@ -13,8 +13,6 @@ on:
         type: choice
         options: [follow-up, replication, replication-fable, main]
         default: follow-up
-  schedule:
-    - cron: "17 */3 * * *"   # backup every 3 hours: continue each study below; a finished study just says so
 
 permissions:
   contents: write   # save results back into the repo
@@ -23,13 +21,9 @@ permissions:
 
 jobs:
   study:
-    name: ${{ matrix.study }}
-    strategy:
-      fail-fast: false
-      matrix:
-        study: ${{ fromJSON(github.event_name == 'schedule' && '["follow-up","replication","replication-fable"]' || format('["{0}"]', inputs.study || 'follow-up')) }}
+    name: ${{ inputs.study }}
     concurrency:
-      group: pushback-test-${{ matrix.study }}   # one run at a time per study; a newer one waits its turn
+      group: pushback-test-${{ inputs.study }}   # one run at a time per study; a newer one waits its turn
       cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 350
@@ -56,9 +50,9 @@ jobs:
       - name: Run
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          ACTION: ${{ inputs.action || 'run' }}
-          PUSHBACK_STUDY: ${{ matrix.study == 'main' && 'study.json' || matrix.study == 'replication' && 'study-replication.json' || matrix.study == 'replication-fable' && 'study-replication-fable.json' || 'study-followup.json' }}
-          PUSHBACK_AUTORESTART: "true"   # the schedule above continues a paused run, so no "paused" issue
+          ACTION: ${{ inputs.action }}
+          PUSHBACK_STUDY: ${{ inputs.study == 'main' && 'study.json' || inputs.study == 'replication' && 'study-replication.json' || inputs.study == 'replication-fable' && 'study-replication-fable.json' || 'study-followup.json' }}
+          PUSHBACK_AUTORESTART: "true"   # a paused run starts the next one (last step), so no "paused" issue
         run: python -u pushback.py "$ACTION"
 
       - name: Notify
@@ -81,6 +75,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ -f .notify/continue ]; then
-            gh workflow run pushback.yml --ref "${{ github.ref_name }}" -f action=run -f study="${{ matrix.study }}"
-            echo "Started the next run for ${{ matrix.study }}; it begins when this one finishes."
+            gh workflow run pushback.yml --ref "${{ github.ref_name }}" -f action=run -f study="${{ inputs.study }}"
+            echo "Started the next run for ${{ inputs.study }}; it begins when this one finishes."
           fi

@@ -73,8 +73,9 @@ The pilot runs, the preregistered checks are applied by code, the full run start
 | Issue title | What to do |
 |---|---|
 | **results** | Send the report to Claude to write up. |
-| **paused** | It hit GitHub's time limit. Press Run workflow again, and it continues where it stopped. |
 | **stopped** or **add your API key** | Follow the issue's instructions, or send it to Claude. |
+
+A run that reaches GitHub's time limit saves its progress and starts the next run by itself, so there's nothing to press.
 
 If saving results ever fails with a 403 error, go to **Settings → Actions → General → Workflow permissions**, choose **Read and write permissions**, and click **Save**.
 
