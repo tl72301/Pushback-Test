@@ -3,6 +3,7 @@ change rates. No API key, no network, no cost.   Usage: python tests/test_pipeli
 import csv
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -13,16 +14,21 @@ REPO = Path(__file__).resolve().parent.parent
 FAKE = Path(__file__).resolve().parent / "fake_anthropic"
 
 
-def run_study(mode, study="study.json"):
+def copy_repo():
     work = Path(tempfile.mkdtemp())
     for f in ["pushback.py", "questions.json", "questions-replication.json"] + [p.name for p in REPO.glob("study*.json")]:
         shutil.copy(REPO / f, work / f)
+    return work
+
+
+def run_study(mode, study="study.json"):
+    work = copy_repo()
     return work, run_in(work, mode, study)
 
 
-def run_in(work, mode, study="study.json"):
+def run_in(work, mode, study="study.json", **extra_env):
     env = dict(os.environ, PYTHONPATH=str(FAKE), ANTHROPIC_API_KEY="fake", PUSHBACK_POLL_SECONDS="0",
-               FAKE_MODE=mode, GITHUB_ACTIONS="false", PUSHBACK_STUDY=study)
+               FAKE_MODE=mode, GITHUB_ACTIONS="false", PUSHBACK_STUDY=study, **extra_env)
     return subprocess.run([sys.executable, "pushback.py", "run"], cwd=work, env=env, capture_output=True, text=True)
 
 
@@ -34,6 +40,7 @@ def test_normal():
     report = (work / "runs/full/report.md").read_text()
     assert "(primary)" in report and "difference detected" in report, report
     assert (work / "runs/full/chart.svg").read_text().startswith("<svg")
+    assert re.search(r"\| \d+/\d+ \(\d+\.\d%\); 95% interval \d+\.\d% to \d+\.\d% \|", report), report
     assert "results" in (work / ".notify/title.txt").read_text()
     print("PASS normal run: pilot passed, full run finished, planted difference detected")
 
@@ -147,13 +154,25 @@ def test_summarize():
 
 def test_result_ids_reconciled():
     for mode in ("missing_result", "duplicate_result", "unexpected_result"):
-        work, proc = run_study(mode)
+        work = copy_repo()
+        store = work / "batches"
+        store.mkdir()
+        proc = run_in(work, mode, FAKE_STORE=str(store))
         assert proc.returncode != 0, f"{mode}: should stop"
-        assert "don't match" in (work / ".notify/title.txt").read_text(), mode
+        assert "could not be reconciled" in (work / ".notify/title.txt").read_text(), mode
+        assert mode.split("_")[0] in (work / ".notify/body.md").read_text(), mode
         state = json.loads((work / "runs/pilot/state.json").read_text())
-        assert state["round1"]["batch_id"] and "collected_at" not in state["round1"], (mode, state)
+        batch = state["round1"]["batch_id"]
+        assert batch and "collected_at" not in state["round1"], (mode, state)
         assert not (work / "runs/pilot/round1.csv").exists(), f"{mode}: nothing should be saved"
-    print("PASS result IDs: a missing, repeated or unexpected result stops collection and keeps the batch to re-collect")
+        proc = run_in(work, "normal", FAKE_STORE=str(store))  # the next run, with the full results available
+        assert proc.returncode == 0, proc.stdout + proc.stderr
+        assert json.loads((work / "runs/pilot/state.json").read_text())["round1"]["batch_id"] == batch
+        ids = {r["custom_id"] for r in csv.DictReader(open(work / "runs/pilot/round1.csv", newline=""))}
+        same = [f for f in store.iterdir() if {r["custom_id"] for r in json.loads(f.read_text())} == ids]
+        assert [f.stem for f in same] == [batch], "the same batch must be collected again, not resubmitted"
+    print("PASS result IDs: a missing, repeated or unexpected result stops collection; the next run re-collects "
+          "the same batch")
 
 
 def test_saved_results_complete():
@@ -184,19 +203,25 @@ def test_fresh_run_isolated():
     env.pop("ANTHROPIC_API_KEY", None)
     proc = subprocess.run([sys.executable, "pushback.py", "run"], cwd=work, env=env, capture_output=True, text=True)
     assert proc.returncode == 0 and "finished" in proc.stdout, proc.stdout + proc.stderr
-    study = json.loads((work / "study.json").read_text())
-    study.update(name="rerun", runs_dir="runs-rerun")
-    (work / "study-rerun.json").write_text(json.dumps(study))
-    proc = run_in(work, "normal", "study-rerun.json")
+    snippet = (REPO / "SETUP.md").read_text().split("python - <<'PY'\n")[1].split("\nPY\n")[0]
+    for _ in range(2):  # the second time it must refuse, since both names are now in use
+        proc = subprocess.run([sys.executable, "-c", snippet], cwd=work, capture_output=True, text=True)
+    assert proc.returncode != 0 and "unused" in proc.stderr, proc.stderr
+    proc = subprocess.run([sys.executable, "pushback.py", "preview"], cwd=work, capture_output=True, text=True,
+                          env=dict(env, PUSHBACK_STUDY="study-local.json"))
+    assert proc.returncode == 0 and "Next stage: pilot" in proc.stdout, proc.stdout + proc.stderr
+    proc = run_in(work, "normal", "study-local.json")
     assert proc.returncode == 0, proc.stdout + proc.stderr
-    assert json.loads((work / "runs-rerun/progress.json").read_text())["status"] == "done"
-    assert {p: p.read_bytes() for p in work.glob("runs*/**/*") if p.is_file() and "runs-rerun" not in p.parts} \
+    assert json.loads((work / "runs-local/progress.json").read_text())["status"] == "done"
+    assert {p: p.read_bytes() for p in work.glob("runs*/**/*") if p.is_file() and "runs-local" not in p.parts} \
         == published, "a new run must not touch the published results"
+    study = json.loads((work / "study-local.json").read_text())
     study["runs_dir"] = "runs/rerun"
     (work / "study-nested.json").write_text(json.dumps(study))
     proc = run_in(work, "normal", "study-nested.json")
     assert proc.returncode != 0 and "folder name at the repo root" in proc.stderr, proc.stderr
-    print("PASS fresh run: finished studies need no key, a new runs_dir starts clean, published results untouched")
+    print("PASS fresh run: finished studies need no key; SETUP.md's separate run starts clean and leaves the "
+          "published results untouched")
 
 
 def test_supplementary_analyses():

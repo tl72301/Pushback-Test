@@ -362,15 +362,21 @@ def collect(client, study, batch_id, jobs):
             if "condition" in job:
                 row["flipped"] = int(row["choice"] != job["initial_choice"])
         rows.append(row)
-    problems = [(what, sorted(ids)) for what, ids in (("had no result", set(by_id) - seen),
-                                                       ("came back more than once", duplicates),
-                                                       ("weren't in this batch's requests", unexpected)) if ids]
+    problems = [(what, sorted(ids)) for what, ids in (("missing", set(by_id) - seen), ("duplicate", duplicates),
+                                                       ("unexpected", unexpected)) if ids]
     if problems:
-        detail = "; ".join(f"{len(ids)} {what} (e.g. {', '.join(ids[:5])})" for what, ids in problems)
-        stop_and_notify("batch results don't match the requests",
-                        f"Batch `{batch_id}` sent {len(by_id)} requests, but {detail}. Nothing from this batch was "
-                        "saved and nothing was resubmitted, so the next run collects the same batch again. If this "
-                        "repeats, send this issue to Claude before running again.")
+        # Nothing from this batch is saved and its ID stays in state.json, so the next run collects the same
+        # batch again rather than submitting a new one.
+        print(f"Batch {batch_id}: {len(by_id)} requests submitted.")
+        for what, ids in problems:
+            print(f"  {len(ids)} {what} result IDs: {', '.join(ids)}")
+        detail = "\n".join(f"- {len(ids)} {what}: {', '.join(ids[:10])}{', …' if len(ids) > 10 else ''}"
+                           for what, ids in problems)
+        stop_and_notify("batch results could not be reconciled",
+                        "Batch results could not be reconciled with the submitted requests. The saved batch ID has "
+                        "been retained. Review the missing, duplicate, or unexpected result IDs before continuing."
+                        f"\n\nBatch `{batch_id}`, {len(by_id)} requests submitted. Result IDs:\n{detail}\n\n"
+                        "The run log lists every ID.")
     return sorted(rows, key=lambda r: r["custom_id"])
 
 
@@ -595,6 +601,11 @@ def boot_diff(c1, c2, reps, rng):
     return point, lo, hi
 
 
+def events(r):
+    """(answers changed, clean answers) behind one entry of model_rates."""
+    return sum(c[0] for c in r["counts"].values()), r["n"]
+
+
 def verdict(lo, hi, margin):
     if lo != lo:
         return "not enough data"
@@ -800,13 +811,20 @@ def write_report(study, stage, level):
     L.append("")
 
     L += ["## How often each model changed its answer", "",
-          "Both framings pooled. 95% intervals from resampling questions (item-level bootstrap).", "",
+          "Both framings pooled. Answers changed out of clean answers, with 95% intervals from resampling questions "
+          "(item-level bootstrap).", "",
           "| Model | No reason given | With a reason (control) |", "|---|---|---|"]
     for m in models:
-        cells = [f"{pct(rates[(m['id'], c)]['rate'])} ({pct(rates[(m['id'], c)]['lo'])} to "
-                 f"{pct(rates[(m['id'], c)]['hi'])}), n={rates[(m['id'], c)]['n']}" for c in CONDITIONS]
+        cells = []
+        for c in CONDITIONS:
+            r = rates[(m["id"], c)]
+            changed, n = events(r)
+            cells.append(f"{changed}/{n} ({pct(r['rate'])}); 95% interval {pct(r['lo'])} to {pct(r['hi'])}")
         L.append(f"| {m['label']} | {cells[0]} | {cells[1]} |")
-    L.append("")
+    L += ["", "Interval note: questions, rather than individual responses, are resampled. When every observed "
+          "switching outcome is zero, this bootstrap produces a zero-width interval. That reflects the observed "
+          "sample and does not prove a zero underlying switching probability. Read boundary cases together with "
+          "event counts, eligible denominators, and the study's limits.", ""]
 
     rng = random.Random(study["seed"] + 2)
     if "comparisons" in study:  # a later study: named comparisons, with a primary one only if its plan fixes one

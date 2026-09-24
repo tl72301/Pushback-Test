@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-The cross-study numbers and chart in RESULTS.md, rebuilt from the saved results of all four studies.
+Recomputes cross-study tables from the saved responses and writes results.svg. No model API calls. The
+supplementary checks are post hoc and do not change the original confirmatory analyses. RESULTS.md is
+maintained separately.
 
-  python summarize.py    Prints the tables used in RESULTS.md and writes results.svg. No API calls, no cost.
+  python summarize.py
 
 Change rates, the primary comparisons and the sensitivity analyses use pushback.py's own functions and
 seeds, so they match each study's report. The reason gap, output tokens and first-answer lean are extra,
-exploratory numbers for the write-up that no plan specified. The supplementary analyses (strictly stable
-first answers and paired branches) were added on 2026-09-24, after all results were known.
+exploratory numbers that no plan specified. The supplementary checks were added on 2026-09-24, after all
+results were known.
 """
 
 import json
@@ -68,12 +70,6 @@ def share_a(r1, model_id):
     """Share of clean first answers that were the letter A (the options swap places in half the runs)."""
     ok = [r for r in r1 if r["model"] == model_id and r["status"] == "ok"]
     return sum(r["letter"].upper() == "A" for r in ok) / len(ok)
-
-
-def events(rates, model_id, condition):
-    """(answers changed, clean answers) behind a change rate."""
-    counts = rates[(model_id, condition)]["counts"].values()
-    return sum(c[0] for c in counts), sum(c[1] for c in counts)
 
 
 # Supplementary analyses, post hoc: added on 2026-09-24 after all results were known. No plan specified them.
@@ -209,7 +205,7 @@ def main():
         cells = []
         for bank in banks:
             rates = where[(bank, mid)]["rates"]
-            cells.append(" / ".join(f"{pb.pct(rates[(mid, c)]['rate'])} ({'/'.join(map(str, events(rates, mid, c)))})"
+            cells.append(" / ".join(f"{pb.pct(rates[(mid, c)]['rate'])} ({'/'.join(map(str, pb.events(rates[(mid, c)])))})"
                                     for c in pb.CONDITIONS))
         print(f"| {labels[mid]} | " + " | ".join(cells) + " |")
 
@@ -221,7 +217,7 @@ def main():
             continue
         newest, oldest, d, lo, hi, v = pb.primary(s["study"], s["rates"])
         rn, ro = (f"{pb.pct(s['rates'][(m['id'], 'no_reason')]['rate'])} "
-                  f"({'/'.join(map(str, events(s['rates'], m['id'], 'no_reason')))})" for m in (newest, oldest))
+                  f"({'/'.join(map(str, pb.events(s['rates'][(m['id'], 'no_reason')])))})" for m in (newest, oldest))
         print(f"| {name} | all 60 | {rn} | {ro} | {pb.pts(d)} | {ci(lo, hi)} | {v} |")
         n, sn, so, sd, slo, shi = sensitivity(s)
         sv = pb.verdict(slo, shi, s["study"]["margin_points"] / 100)
@@ -239,7 +235,7 @@ def main():
             cells.append(f"{pb.pts(d)} ({ci(lo, hi)})")
         print(f"| {labels[mid]} | " + " | ".join(cells) + " |")
 
-    print("\n## Median output tokens, thinking included, and share of first answers that were A (exploratory)\n")
+    print("\n## Median output tokens, including thinking tokens, and share of first answers that were A (exploratory)\n")
     print("| Model | Bank | First answer | After pushback, no reason | After pushback, with a reason | First answers A |")
     print("|---|---|---|---|---|---|")
     for mid in ORDER:
@@ -249,7 +245,7 @@ def main():
             print(f"| {labels[mid]} | {bank.split(' (')[0]} | " + " | ".join(f"{t:g}" for t in toks)
                   + f" | {pb.pct(share_a(s['r1'], mid))} |")
 
-    print("\n## Supplementary, post hoc: questions where every first answer was clean and the same (no reason)\n")
+    print("\n## Switching after consistent initial choices (post hoc), no reason\n")
     print("| Model | " + " | ".join(banks) + " |")
     print("|---|" + "---|" * len(banks))
     for mid in ORDER:
@@ -258,11 +254,11 @@ def main():
             s = where[(bank, mid)]
             items = stable_items(s["study"], s["r1"], mid)
             k, n, sent = switches(s["r2"], mid, items, "no_reason")
-            cells.append(f"{k}/{n} = {pb.pct(k / n if n else float('nan'))}, {len(items)} questions"
-                         + (f", {sent - n} in prose left out" if sent > n else ""))
+            cells.append(f"{k}/{n} ({pb.pct(k / n if n else float('nan'))}); {len(items)} questions"
+                         + (f"; {sent - n} of {sent} in prose left out" if sent > n else ""))
         print(f"| {labels[mid]} | " + " | ".join(cells) + " |")
 
-    print("\n## Supplementary, post hoc: Opus 4.6's label effect on those questions (no reason)\n")
+    print("\n## Evaluation label on the consistent-choice subset (post hoc), Opus 4.6, no reason\n")
     print("| Bank | Questions | Unlabeled | Labeled |")
     print("|---|---|---|---|")
     for bank in banks:
@@ -271,10 +267,10 @@ def main():
         cells = []
         for framing in pb.FRAMINGS:
             k, n, _ = switches(s["r2"], "claude-opus-4-6", items, "no_reason", framing)
-            cells.append(f"{k}/{n} = {pb.pct(k / n)}")
+            cells.append(f"{k}/{n} ({pb.pct(k / n)})")
         print(f"| {bank.split(' (')[0]} | {len(items)} | " + " | ".join(cells) + " |")
 
-    print("\n## Supplementary, post hoc: the two branches of each first answer, both clean\n")
+    print("\n## Matched reason-branch transitions (post hoc)\n")
     print("| Model | Bank | Pairs | Left out | Both changed | Neither | Reason only | No reason only | "
           "Net (pts) | 95% interval |")
     print("|---|---|---|---|---|---|---|---|---|---|")
