@@ -11,6 +11,10 @@
   },
   "round2": {
     "batch_id": "msgbatch_01FppNDg7hMkzBv2wu1f5q3V",
-    "submitted_at": "2026-09-23T23:57:22+00:00"
-  }
+    "submitted_at": "2026-09-23T23:57:22+00:00",
+    "collected_at": "2026-09-24T00:03:27+00:00"
+  },
+  "checks": {},
+  "done": true,
+  "finished_at": "2026-09-24T00:03:27+00:00"
 }
